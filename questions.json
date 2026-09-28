@@ -1,0 +1,1082 @@
+[
+  {
+    "id": 1,
+    "category": "OOPS",
+    "topic": "Classes & Objects",
+    "difficulty": "Easy",
+    "question": "Explain the difference between a class and an object. Using a real-world example, show how many objects can be created from one class.",
+    "answer": "A class is a blueprint that defines the attributes (data) and behaviours (methods) common to a group of things. An object is a concrete instance of that class with its own state. For example, a Car class defines colour, speed and drive(); each car on the road is an object with different values for those attributes.",
+    "keyPoints": ["Class = blueprint, object = instance", "Each object has its own state", "One class can create many objects", "Objects share behaviour defined by the class"]
+  },
+  {
+    "id": 2,
+    "category": "OOPS",
+    "topic": "Classes & Objects",
+    "difficulty": "Medium",
+    "question": "What happens in memory when you write Student s = new Student() in a Java-like language? Explain the difference between the reference and the object.",
+    "answer": "The new keyword allocates the object on the heap and runs its constructor. The variable s is a reference (stored on the stack for a local variable) that holds the address of that object. Copying the reference gives a second name for the same object, not a second object. When no references remain, the garbage collector can reclaim the memory.",
+    "keyPoints": ["Object lives on the heap", "Reference holds the address", "Copying a reference does not copy the object", "Unreferenced objects are garbage collected"]
+  },
+  {
+    "id": 3,
+    "category": "OOPS",
+    "topic": "Classes & Objects",
+    "difficulty": "Hard",
+    "question": "Two variables refer to the same object and you modify its state through one of them. What does the other variable see, and how would you create an independent copy? Distinguish shallow and deep copy.",
+    "answer": "Both variables see the change because they point to the same object. To get an independent copy you clone it. A shallow copy duplicates the object but shares any nested objects it references; a deep copy recursively duplicates nested objects so no state is shared. Copy constructors, clone methods or serialisation are common ways to copy.",
+    "keyPoints": ["Aliasing: one object, two references", "Shallow copy shares nested objects", "Deep copy duplicates the whole object graph", "Copy constructor or clone creates copies"]
+  },
+  {
+    "id": 4,
+    "category": "OOPS",
+    "topic": "Encapsulation",
+    "difficulty": "Easy",
+    "question": "Explain encapsulation and describe a situation, such as a bank account, where it protects data from misuse.",
+    "answer": "Encapsulation bundles data and the methods that operate on it into one unit and restricts direct access to the data. In a BankAccount class the balance is private and can only change through deposit() and withdraw(), which validate the amount. Outside code therefore cannot set a negative balance or skip the checks.",
+    "keyPoints": ["Data and methods bundled in a class", "Fields hidden using private access", "Access only through controlled methods", "Validation keeps the object in a valid state"]
+  },
+  {
+    "id": 5,
+    "category": "OOPS",
+    "topic": "Encapsulation",
+    "difficulty": "Medium",
+    "question": "Why do we use getters and setters instead of public fields? Are they always necessary, and can they be misused?",
+    "answer": "Accessors let the class control how state is read and changed, so it can validate input, enforce rules and change its internal representation later without breaking callers. They are not always needed: a setter for every field defeats encapsulation, and immutable objects often need only getters. Prefer meaningful behaviour methods such as deposit() over raw setters.",
+    "keyPoints": ["Control and validate access", "Internal representation can change safely", "Blind getters and setters for everything break encapsulation", "Prefer behaviour methods and immutability"]
+  },
+  {
+    "id": 6,
+    "category": "OOPS",
+    "topic": "Encapsulation",
+    "difficulty": "Hard",
+    "question": "A class keeps a private list of items, but its getItems() method returns that list directly. Has encapsulation been broken? How would you fix it?",
+    "answer": "Yes. Although the field is private, callers receive a reference to the same mutable list and can add or remove items without the class knowing. Fix it by returning an unmodifiable view or a defensive copy, or by exposing methods like addItem() and removeItem() that enforce the rules. The same care applies when a constructor accepts a mutable object.",
+    "keyPoints": ["A private field alone does not guarantee protection", "Returned reference exposes internal state", "Use defensive copies or unmodifiable views", "Expose intent-revealing methods instead"]
+  },
+  {
+    "id": 7,
+    "category": "OOPS",
+    "topic": "Inheritance",
+    "difficulty": "Easy",
+    "question": "Explain inheritance in OOPS and describe a situation where using inheritance would be appropriate.",
+    "answer": "Inheritance lets a child class acquire the fields and methods of a parent class and then extend or specialise them. It is appropriate when there is a genuine is-a relationship, for example Dog and Cat are Animals that share eat() and sleep() while each adds its own behaviour. It promotes code reuse and a clear hierarchy.",
+    "keyPoints": ["Child derives from parent", "Models an is-a relationship", "Promotes code reuse", "Child can add or specialise behaviour"]
+  },
+  {
+    "id": 8,
+    "category": "OOPS",
+    "topic": "Inheritance",
+    "difficulty": "Medium",
+    "question": "What are the types of inheritance? Why do languages like Java not allow multiple inheritance of classes, and what is the diamond problem?",
+    "answer": "Common forms are single, multilevel, hierarchical, multiple and hybrid inheritance. If classes B and C both inherit from A and D inherits from both B and C, D may receive two conflicting versions of A's members. This is the diamond problem. Java avoids it by allowing a class to extend only one class while permitting multiple interfaces; C++ resolves it with virtual inheritance.",
+    "keyPoints": ["Single, multilevel, hierarchical, multiple, hybrid", "Diamond problem causes ambiguity", "Java: one class, many interfaces", "C++ uses virtual inheritance"]
+  },
+  {
+    "id": 9,
+    "category": "OOPS",
+    "topic": "Inheritance",
+    "difficulty": "Medium",
+    "question": "Explain the role of the super keyword and the order in which constructors run in an inheritance chain.",
+    "answer": "super refers to the parent class. It is used to call the parent constructor with super(args) and to access parent methods or fields that the child has overridden or hidden. When a child object is created, the parent constructor runs first and then the child constructor, so the base part of the object is initialised before the derived part.",
+    "keyPoints": ["super calls parent constructor or methods", "Parent constructor runs before child", "super() must be the first statement", "Base part is initialised first"]
+  },
+  {
+    "id": 10,
+    "category": "OOPS",
+    "topic": "Inheritance",
+    "difficulty": "Hard",
+    "question": "What is the fragile base class problem? How can changes in a parent class break child classes, and how would you reduce the risk?",
+    "answer": "Child classes depend on the implementation details of the parent, not just its interface. A seemingly safe change in the parent, such as making one method call another, can alter the behaviour of subclasses that override those methods. To reduce the risk, design for inheritance carefully or forbid it (final), document overridable hooks, and prefer composition when reuse does not need an is-a relationship.",
+    "keyPoints": ["Subclasses depend on parent internals", "Parent changes can silently break children", "Use final or document extension points", "Prefer composition when suitable"]
+  },
+  {
+    "id": 11,
+    "category": "OOPS",
+    "topic": "Polymorphism",
+    "difficulty": "Easy",
+    "question": "Explain polymorphism with a real-world example and mention its main types.",
+    "answer": "Polymorphism means one interface with many forms: the same call behaves differently depending on the object. A person acts as a student, a customer or an employee, and a draw() call on a Shape draws a circle or a square depending on the actual object. It appears as compile-time polymorphism (overloading) and runtime polymorphism (overriding).",
+    "keyPoints": ["One interface, many implementations", "Compile-time: overloading", "Runtime: overriding", "Makes code easier to extend"]
+  },
+  {
+    "id": 12,
+    "category": "OOPS",
+    "topic": "Polymorphism",
+    "difficulty": "Medium",
+    "question": "Compare compile-time and runtime polymorphism. How does the program decide which overridden method to call at runtime?",
+    "answer": "Compile-time (static) polymorphism is resolved by the compiler using method signatures, as in overloading. Runtime (dynamic) polymorphism is resolved while the program runs based on the actual object type, as in overriding. The mechanism is dynamic dispatch, commonly implemented with a virtual method table (vtable) per class, so a parent reference invokes the child's version.",
+    "keyPoints": ["Static binding vs dynamic binding", "Overloading vs overriding", "Decision uses the actual object type", "Implemented via vtable / dynamic dispatch"]
+  },
+  {
+    "id": 13,
+    "category": "OOPS",
+    "topic": "Polymorphism",
+    "difficulty": "Hard",
+    "question": "A parent-type reference holds a child object. Which members can you access through it, and what are upcasting and downcasting? What can go wrong with downcasting?",
+    "answer": "Through a parent reference you can call only members declared in the parent type, though overridden methods run the child's version. Assigning a child to a parent reference is upcasting and is always safe. Casting back to the child type is downcasting; it needs an explicit cast and fails at runtime (for example ClassCastException) if the object is not actually that type, so check with instanceof first or redesign to avoid casts.",
+    "keyPoints": ["Reference type limits accessible members", "Upcasting is implicit and safe", "Downcasting is explicit and risky", "Check instanceof or avoid the cast"]
+  },
+  {
+    "id": 14,
+    "category": "OOPS",
+    "topic": "Abstraction",
+    "difficulty": "Easy",
+    "question": "Explain abstraction with an example such as driving a car or using an ATM. What does it hide and what does it expose?",
+    "answer": "Abstraction shows only the essential features and hides the implementation details. A driver uses the steering wheel, pedals and gear without knowing how the engine works internally. Likewise an ATM exposes withdraw and check balance but hides how the bank processes them. It reduces complexity and lets implementations change without affecting users.",
+    "keyPoints": ["Expose what, hide how", "Reduces complexity", "Implementation can change independently", "Achieved with abstract classes and interfaces"]
+  },
+  {
+    "id": 15,
+    "category": "OOPS",
+    "topic": "Abstraction",
+    "difficulty": "Medium",
+    "question": "How is abstraction achieved in code, and how does it differ from encapsulation?",
+    "answer": "Abstraction is achieved with abstract classes and interfaces that define what operations exist without saying how they work. Encapsulation protects data by bundling it with methods and restricting access with modifiers. Abstraction works at the design level (hiding complexity), while encapsulation works at the implementation level (hiding data); they complement each other.",
+    "keyPoints": ["Abstract classes and interfaces", "Abstraction hides complexity", "Encapsulation hides and protects data", "They work together"]
+  },
+  {
+    "id": 16,
+    "category": "OOPS",
+    "topic": "Abstraction",
+    "difficulty": "Hard",
+    "question": "Design a payment module so that adding a new payment method such as UPI or a wallet does not require changing the checkout code. Which OOP ideas do you use?",
+    "answer": "Define a PaymentMethod interface with pay(amount) and create classes such as CardPayment, UpiPayment and WalletPayment that implement it. The checkout code depends only on the interface and receives an implementation, so a new method is just a new class. This uses abstraction, polymorphism and the open/closed and dependency inversion principles.",
+    "keyPoints": ["Interface defines the contract", "Concrete classes implement pay()", "Checkout depends on the abstraction", "New method means new class, no other changes"]
+  },
+  {
+    "id": 17,
+    "category": "OOPS",
+    "topic": "Constructors",
+    "difficulty": "Easy",
+    "question": "What is a constructor, how does it differ from a normal method, and what is a default constructor?",
+    "answer": "A constructor is a special member that runs automatically when an object is created and initialises its state. It has the same name as the class, has no return type, and cannot be called like a normal method on an existing object. If you define no constructor the compiler supplies a default no-argument constructor; once you define one yourself, that default is no longer generated.",
+    "keyPoints": ["Initialises the object", "Same name as class, no return type", "Called automatically on creation", "Default constructor supplied if none defined"]
+  },
+  {
+    "id": 18,
+    "category": "OOPS",
+    "topic": "Constructors",
+    "difficulty": "Medium",
+    "question": "Explain constructor overloading and constructor chaining using this() and super().",
+    "answer": "Constructor overloading means a class has several constructors with different parameter lists so objects can be created in different ways. Chaining lets one constructor call another to avoid duplicated code: this(...) calls another constructor in the same class and super(...) calls the parent's constructor. The call must be the first statement, and a constructor cannot use both this() and super() together.",
+    "keyPoints": ["Multiple constructors with different parameters", "this() chains within the class", "super() chains to the parent", "Must be the first statement"]
+  },
+  {
+    "id": 19,
+    "category": "OOPS",
+    "topic": "Constructors",
+    "difficulty": "Hard",
+    "question": "Why would a class deliberately have a private constructor? Give at least two design patterns or use cases.",
+    "answer": "A private constructor prevents outside code from instantiating the class directly, so the class controls object creation. It is used in the Singleton pattern to guarantee a single instance, in static factory methods that return cached or subtype instances, and in utility classes that contain only static members and should never be instantiated.",
+    "keyPoints": ["Prevents direct instantiation", "Singleton pattern", "Static factory methods", "Utility classes"]
+  },
+  {
+    "id": 20,
+    "category": "OOPS",
+    "topic": "Method Overloading",
+    "difficulty": "Easy",
+    "question": "Explain method overloading with an example. In what ways can overloaded methods differ?",
+    "answer": "Method overloading means defining multiple methods with the same name but different parameter lists in a class, such as add(int, int), add(double, double) and add(int, int, int). They can differ in the number, types or order of parameters. It makes an API easier to use because one meaningful name serves several input forms.",
+    "keyPoints": ["Same name, different parameters", "Differ by number, type or order", "Resolved at compile time", "Return type alone is not enough"]
+  },
+  {
+    "id": 21,
+    "category": "OOPS",
+    "topic": "Method Overloading",
+    "difficulty": "Medium",
+    "question": "Can two methods be overloaded if they differ only in return type? Explain why, and describe an ambiguity that can arise with overloading.",
+    "answer": "No. The compiler chooses an overload from the method name and argument types at the call site, and the return type is not part of that choice, so it would be ambiguous and gives a compile error. Ambiguity can also arise with null or type promotion, for example calling print(null) when both print(String) and print(Integer) exist.",
+    "keyPoints": ["Signature = name + parameter list", "Return type is not part of the signature", "Compiler picks the overload from the arguments", "Null or promotions can cause ambiguity"]
+  },
+  {
+    "id": 22,
+    "category": "OOPS",
+    "topic": "Method Overriding",
+    "difficulty": "Easy",
+    "question": "Explain method overriding with an example and list the basic rules for overriding a method.",
+    "answer": "Overriding occurs when a child class provides its own implementation of a method already defined in the parent class with the same name and parameters. For example, Animal.speak() is overridden by Dog.speak() to print a bark. Rules: same signature, return type the same or covariant, access level not more restrictive, and the method must be inheritable (not private, static or final).",
+    "keyPoints": ["Same name and parameters", "Child provides its own implementation", "Access cannot be more restrictive", "Enables runtime polymorphism"]
+  },
+  {
+    "id": 23,
+    "category": "OOPS",
+    "topic": "Method Overriding",
+    "difficulty": "Medium",
+    "question": "What is the difference between method overloading and method overriding?",
+    "answer": "Method overloading means having multiple methods with the same name but different parameters, generally within the same class. Method overriding occurs when a child class provides a different implementation of a method inherited from its parent class. Overloading is associated with compile-time polymorphism, while overriding is associated with runtime polymorphism.",
+    "keyPoints": ["Same method name", "Different parameters for overloading", "Parent-child relationship for overriding", "Compile-time vs runtime polymorphism"]
+  },
+  {
+    "id": 24,
+    "category": "OOPS",
+    "topic": "Method Overriding",
+    "difficulty": "Hard",
+    "question": "Can static, private and final methods be overridden? What is method hiding and how is it different from overriding?",
+    "answer": "Private methods are not inherited, so they cannot be overridden, and final methods are explicitly prohibited from being overridden. A static method cannot be overridden; if a child declares a static method with the same signature it hides the parent's method. Hiding is resolved at compile time from the reference type, whereas overriding is resolved at runtime from the object type.",
+    "keyPoints": ["Private and final cannot be overridden", "Static methods are hidden, not overridden", "Hiding uses the reference type at compile time", "Overriding uses the object type at runtime"]
+  },
+  {
+    "id": 25,
+    "category": "OOPS",
+    "topic": "Access Modifiers",
+    "difficulty": "Easy",
+    "question": "Explain public, private, protected and default (package-level) access with an example of when to use each.",
+    "answer": "public members are accessible from anywhere, private only within the same class, protected within the same package and in subclasses, and default (no modifier) within the same package only. Use private for internal fields, public for the API a class offers, protected for members meant for subclasses and default for helpers shared inside a package.",
+    "keyPoints": ["public: everywhere", "private: same class only", "protected: package and subclasses", "default: same package"]
+  },
+  {
+    "id": 26,
+    "category": "OOPS",
+    "topic": "Access Modifiers",
+    "difficulty": "Medium",
+    "question": "Why is a protected field generally considered weaker encapsulation than a private field? How do you decide which modifier to use?",
+    "answer": "A protected member is visible to every subclass and same-package class, so many pieces of code may depend on and change it, and the parent cannot easily alter it later. Private fields keep the class in full control. The rule of thumb is to use the most restrictive access that works: private by default, expose behaviour through methods, and use protected only for deliberate extension points.",
+    "keyPoints": ["Protected widens who can touch the data", "Private gives the class full control", "Use the most restrictive access possible", "Protected only for deliberate extension"]
+  },
+  {
+    "id": 27,
+    "category": "OOPS",
+    "topic": "Interfaces",
+    "difficulty": "Easy",
+    "question": "What is an interface? Why do we use interfaces, and can you create an object of an interface?",
+    "answer": "An interface is a contract that declares methods a class must implement, without specifying how. It enables abstraction, loose coupling and a form of multiple inheritance. You cannot instantiate an interface directly, but you can create objects of classes that implement it and refer to them through the interface type.",
+    "keyPoints": ["Contract of methods to implement", "Supports abstraction and loose coupling", "A class can implement many interfaces", "Cannot be instantiated directly"]
+  },
+  {
+    "id": 28,
+    "category": "OOPS",
+    "topic": "Interfaces",
+    "difficulty": "Medium",
+    "question": "How do interfaces provide multiple inheritance of type? What happens if a class implements two interfaces that have the same default method?",
+    "answer": "A class may implement many interfaces, so it can be treated as several types at once without inheriting state from multiple parents. If two interfaces supply the same default method, the compiler reports a conflict and the class must override the method, optionally choosing one version with InterfaceName.super.method(). This avoids the ambiguity of the diamond problem.",
+    "keyPoints": ["Multiple types without multiple state inheritance", "Conflicting defaults cause a compile error", "Class must override to resolve", "InterfaceName.super picks a specific default"]
+  },
+  {
+    "id": 29,
+    "category": "OOPS",
+    "topic": "Interfaces",
+    "difficulty": "Hard",
+    "question": "Explain 'program to an interface, not an implementation' and show how it helps when you need to test a class that sends emails.",
+    "answer": "Depend on an abstraction such as EmailSender rather than a concrete SmtpEmailSender. The class receives an EmailSender through its constructor, so production code passes the real SMTP implementation and tests pass a fake or mock that records calls. This reduces coupling, makes swapping implementations easy and allows fast, isolated tests.",
+    "keyPoints": ["Depend on abstractions", "Inject the dependency via the constructor", "Tests use a fake or mock implementation", "Lower coupling and easier maintenance"]
+  },
+  {
+    "id": 30,
+    "category": "OOPS",
+    "topic": "Abstract Classes",
+    "difficulty": "Medium",
+    "question": "Compare abstract classes and interfaces. When would you choose one over the other?",
+    "answer": "An abstract class can hold state, constructors and both abstract and concrete methods, and a class can extend only one. An interface defines a contract (with optional default methods), has no instance state, and a class can implement many. Choose an abstract class when related classes share common code and state; choose an interface to define a capability that unrelated classes can offer.",
+    "keyPoints": ["Abstract class: state and shared code", "Interface: contract, multiple implementation", "Single vs multiple inheritance", "Choose by relationship: shared base vs capability"]
+  },
+  {
+    "id": 31,
+    "category": "OOPS",
+    "topic": "Abstract Classes",
+    "difficulty": "Hard",
+    "question": "Can an abstract class have a constructor? If you cannot instantiate it, why would it need one? What happens when you create a child object?",
+    "answer": "Yes. The constructor of an abstract class runs when a concrete subclass is instantiated, through the super() call, and it initialises the fields shared by all subclasses. The abstract class itself cannot be instantiated because it may have unimplemented methods, but its constructor is essential for setting up the inherited part of the object.",
+    "keyPoints": ["Abstract classes can have constructors", "Called through super() from the child", "Initialises shared state", "The class itself cannot be instantiated"]
+  },
+  {
+    "id": 32,
+    "category": "OOPS",
+    "topic": "Composition vs Inheritance",
+    "difficulty": "Medium",
+    "question": "Explain the is-a and has-a relationships with an example. When is each appropriate?",
+    "answer": "Is-a is inheritance: a Car is a Vehicle. Has-a is composition or aggregation: a Car has an Engine. Use inheritance when the child is truly a specialised type that can substitute for the parent; use composition when a class simply uses or contains the behaviour of another. Composition is more flexible because contained parts can be swapped at runtime.",
+    "keyPoints": ["Is-a = inheritance", "Has-a = composition or aggregation", "Inheritance only for true substitutability", "Composition is more flexible"]
+  },
+  {
+    "id": 33,
+    "category": "OOPS",
+    "topic": "Composition vs Inheritance",
+    "difficulty": "Hard",
+    "question": "Explain 'favour composition over inheritance' using a scenario, such as birds that can and cannot fly or a logger used by many classes.",
+    "answer": "If Bird has fly() and Penguin extends Bird, Penguin must override fly() to throw an error, which breaks substitutability, and adding more abilities multiplies subclasses. With composition you give a class components like a FlyBehaviour that can be assigned or replaced at runtime. Composition reduces coupling to a parent's implementation, avoids deep hierarchies and makes behaviour easier to change and test.",
+    "keyPoints": ["Inheritance can force unwanted behaviour", "Behaviours as swappable components", "Looser coupling", "Avoids deep, rigid hierarchies"]
+  },
+  {
+    "id": 34,
+    "category": "OOPS",
+    "topic": "SOLID principles",
+    "difficulty": "Medium",
+    "question": "Explain the Single Responsibility Principle with an example of a class that violates it and how you would refactor it.",
+    "answer": "A class should have only one reason to change. An Invoice class that calculates totals, prints itself and saves to a database has three reasons to change. Refactor it into Invoice (business data), InvoicePrinter and InvoiceRepository so each class has one focused responsibility, which improves readability and testing.",
+    "keyPoints": ["One class, one reason to change", "Split calculation, printing and persistence", "Improves readability and testability", "Reduces ripple effects of changes"]
+  },
+  {
+    "id": 35,
+    "category": "OOPS",
+    "topic": "SOLID principles",
+    "difficulty": "Medium",
+    "question": "What is the Open/Closed Principle? Show how you would avoid a growing if-else chain when adding new shapes to an area calculator.",
+    "answer": "Software entities should be open for extension but closed for modification. Instead of a calculator with an if-else for each shape, define a Shape interface with area() and let each shape implement it. Adding a new shape means adding a new class without editing the calculator, using polymorphism.",
+    "keyPoints": ["Open for extension, closed for modification", "Replace conditionals with polymorphism", "Shape interface with area()", "New behaviour = new class"]
+  },
+  {
+    "id": 36,
+    "category": "OOPS",
+    "topic": "SOLID principles",
+    "difficulty": "Hard",
+    "question": "Explain the Liskov Substitution Principle. Why is making Square extend Rectangle a classic violation?",
+    "answer": "Objects of a subclass must be usable wherever the parent type is expected without breaking correctness. A Rectangle lets width and height change independently, but a Square must keep them equal, so code that sets width to 5 and height to 4 and expects area 20 breaks with a Square. The subtype changes expected behaviour, so it should not inherit from Rectangle.",
+    "keyPoints": ["Subtypes must be substitutable for their base types", "Square breaks Rectangle's expectations", "Behavioural contract matters, not just syntax", "Prefer a different design or composition"]
+  },
+  {
+    "id": 37,
+    "category": "OOPS",
+    "topic": "SOLID principles",
+    "difficulty": "Medium",
+    "question": "What is the Interface Segregation Principle? Give an example of a 'fat' interface and how to split it.",
+    "answer": "Clients should not be forced to depend on methods they do not use. A Worker interface with work() and eat() forces a Robot class to implement eat() meaninglessly. Split it into smaller interfaces such as Workable and Eatable so classes implement only what applies.",
+    "keyPoints": ["No forced dependency on unused methods", "Fat interfaces cause dummy implementations", "Split into small, focused interfaces", "Improves flexibility and clarity"]
+  },
+  {
+    "id": 38,
+    "category": "OOPS",
+    "topic": "SOLID principles",
+    "difficulty": "Hard",
+    "question": "Explain the Dependency Inversion Principle and how it relates to dependency injection.",
+    "answer": "High-level modules should not depend on low-level modules; both should depend on abstractions. A NotificationService should depend on a MessageSender interface, not directly on EmailSender. Dependency injection is a technique for supplying the concrete dependency from outside, usually via the constructor, which supports the principle and makes swapping and testing easy.",
+    "keyPoints": ["Depend on abstractions, not concretions", "High-level and low-level both depend on interfaces", "Dependency injection supplies the implementation", "Improves testability and flexibility"]
+  },
+  {
+    "id": 39,
+    "category": "OOPS",
+    "topic": "Real-world OOPS concepts",
+    "difficulty": "Medium",
+    "question": "You are asked to model a Library Management System. Which classes would you identify, how are they related, and which OOP concepts would you use?",
+    "answer": "Likely classes are Book, Member, Librarian, Loan and Library. Member and Librarian can extend a User class (inheritance); Library has many Books (composition or aggregation); a Loan associates a Member with a Book. Encapsulation protects data such as fine amounts, and an interface or abstract Item class supports polymorphism for books, journals and DVDs.",
+    "keyPoints": ["Identify nouns as classes", "Inheritance for User types", "Composition/aggregation for Library and Books", "Encapsulation and polymorphism applied"]
+  },
+  {
+    "id": 40,
+    "category": "OOPS",
+    "topic": "Real-world OOPS concepts",
+    "difficulty": "Hard",
+    "question": "Design a parking lot system. Identify the main classes and explain how inheritance, polymorphism and SOLID principles would shape the design.",
+    "answer": "Classes could include ParkingLot, Level, ParkingSpot, Vehicle, Ticket and a pricing strategy. Vehicle can be an abstract class with Car, Bike and Truck subclasses, and spots can be sized by type. Polymorphism lets each vehicle define which spots fit it, and a FeeStrategy interface lets pricing change without modifying ParkingLot (open/closed). Each class has a single responsibility, and the lot depends on abstractions.",
+    "keyPoints": ["Clear class identification and relationships", "Abstract Vehicle with subclasses", "Strategy interface for pricing", "SOLID: single responsibility, open/closed, dependency inversion"]
+  },
+  {
+    "id": 41,
+    "category": "JavaScript",
+    "topic": "let, const, var",
+    "difficulty": "Easy",
+    "question": "Explain the differences between var, let and const in terms of scope, hoisting and reassignment.",
+    "answer": "var is function-scoped, hoisted and initialised with undefined, and can be redeclared. let and const are block-scoped and hoisted but stay in the temporal dead zone until their declaration runs, so using them earlier throws a ReferenceError. let can be reassigned; const cannot be reassigned and must be initialised. Modern code uses const by default and let when reassignment is needed.",
+    "keyPoints": ["var: function scope, let/const: block scope", "Temporal dead zone for let and const", "const cannot be reassigned", "Prefer const, then let, avoid var"]
+  },
+  {
+    "id": 42,
+    "category": "JavaScript",
+    "topic": "let, const, var",
+    "difficulty": "Medium",
+    "question": "If a variable is declared with const, can you push to an array or change an object property? Explain what const actually protects and how to make an object truly immutable.",
+    "answer": "Yes. const prevents reassigning the binding to a different value, but the contents of an array or object can still be mutated because the binding holds a reference. Object.freeze makes an object's own properties read-only, but only shallowly, so nested objects must be frozen recursively or handled with immutable patterns.",
+    "keyPoints": ["const protects the binding, not the contents", "Objects and arrays remain mutable", "Object.freeze is shallow", "Deep freeze or immutable patterns for full immutability"]
+  },
+  {
+    "id": 43,
+    "category": "JavaScript",
+    "topic": "let, const, var",
+    "difficulty": "Hard",
+    "question": "What does this code print and why? for (var i = 0; i < 3; i++) { setTimeout(() => console.log(i), 0); } How does it change with let, and what are other fixes?",
+    "answer": "It prints 3, 3, 3 because var is function-scoped, so all callbacks share one i, and the callbacks run after the loop has finished when i is 3. With let, each iteration creates a new block-scoped binding, so it prints 0, 1, 2. Other fixes are wrapping the body in an IIFE that receives i, or passing the value as an extra argument to setTimeout.",
+    "keyPoints": ["var shares one variable across iterations", "Callbacks run after the loop ends", "let creates a fresh binding per iteration", "IIFE or extra argument also fixes it"]
+  },
+  {
+    "id": 44,
+    "category": "JavaScript",
+    "topic": "Data Types",
+    "difficulty": "Medium",
+    "question": "Explain the difference between primitive and reference types in JavaScript. What does typeof null return, and how does copying differ between them?",
+    "answer": "Primitives (string, number, bigint, boolean, undefined, null, symbol) are immutable and copied by value. Objects, arrays and functions are reference types, so copying a variable copies the reference and both variables point to the same object. typeof null returns 'object', a long-standing historical bug in the language, so null must be checked explicitly.",
+    "keyPoints": ["Primitives are copied by value", "Objects are copied by reference", "typeof null is 'object' (historical bug)", "Seven primitive types"]
+  },
+  {
+    "id": 45,
+    "category": "JavaScript",
+    "topic": "Scope",
+    "difficulty": "Medium",
+    "question": "Explain global, function and block scope, and how the scope chain resolves a variable name.",
+    "answer": "Global scope is accessible everywhere, function scope is limited to the function body, and block scope (let and const) is limited to the nearest curly braces. When a name is used, the engine looks in the current scope and then moves outward through enclosing scopes (the scope chain) until it finds it or reaches global scope, throwing a ReferenceError if it is not found. Scope is lexical: it is determined by where the code is written.",
+    "keyPoints": ["Global, function and block scope", "Lookup moves outward through the scope chain", "ReferenceError if not found", "Lexical scoping"]
+  },
+  {
+    "id": 46,
+    "category": "JavaScript",
+    "topic": "Hoisting",
+    "difficulty": "Easy",
+    "question": "What is hoisting? What is the output of console.log(a); var a = 5; and what would happen if let was used instead?",
+    "answer": "Hoisting is the behaviour where declarations are processed before code executes, so they are available in their scope before the line that declares them. With var, the declaration is hoisted and initialised to undefined, so the code prints undefined (the assignment stays in place). With let, the variable is in the temporal dead zone until declared, so it throws a ReferenceError.",
+    "keyPoints": ["Declarations are processed before execution", "var is hoisted as undefined", "let/const are in the temporal dead zone", "Assignments are not hoisted"]
+  },
+  {
+    "id": 47,
+    "category": "JavaScript",
+    "topic": "Hoisting",
+    "difficulty": "Medium",
+    "question": "How does hoisting differ for function declarations, function expressions and class declarations? What is the temporal dead zone?",
+    "answer": "Function declarations are fully hoisted with their body, so they can be called before they appear. Function expressions assigned to var are hoisted only as undefined, so calling them early throws a TypeError; if assigned with let or const they hit the temporal dead zone. Classes behave like let. The temporal dead zone is the period between entering a scope and the variable's declaration, during which access throws an error.",
+    "keyPoints": ["Function declarations hoisted with body", "Function expressions are not callable early", "Classes are in the TDZ until declared", "TDZ throws ReferenceError"]
+  },
+  {
+    "id": 48,
+    "category": "JavaScript",
+    "topic": "Functions",
+    "difficulty": "Medium",
+    "question": "What does it mean that functions are first-class citizens in JavaScript? Explain higher-order functions with an example.",
+    "answer": "Functions are values: they can be stored in variables, passed as arguments and returned from other functions. A higher-order function takes or returns a function, such as array.map(fn) or a function makeMultiplier(n) that returns x => x * n. This enables callbacks, composition and abstraction over behaviour.",
+    "keyPoints": ["Functions are values", "Can be passed and returned", "Higher-order: takes or returns a function", "Examples: map, filter, makeMultiplier"]
+  },
+  {
+    "id": 49,
+    "category": "JavaScript",
+    "topic": "Arrow Functions",
+    "difficulty": "Easy",
+    "question": "How do arrow functions differ from regular functions in terms of this, arguments and use with new?",
+    "answer": "Arrow functions do not have their own this; they capture this lexically from the surrounding scope. They also have no arguments object (use rest parameters), cannot be used as constructors with new, and have no prototype. They allow shorter syntax, with implicit return for single expressions.",
+    "keyPoints": ["Lexical this", "No arguments object", "Cannot be used with new", "Concise syntax"]
+  },
+  {
+    "id": 50,
+    "category": "JavaScript",
+    "topic": "Arrow Functions",
+    "difficulty": "Medium",
+    "question": "In what situations should you avoid arrow functions? Give examples.",
+    "answer": "Avoid them as object methods that need this to refer to the object, as constructors, in prototype methods relying on this, and as event handlers when you need this to be the element. They are also unsuitable when you need the arguments object or dynamic binding via call, apply or bind. Use regular functions there and arrows for callbacks that should keep the outer this.",
+    "keyPoints": ["Object methods needing this", "Constructors and prototype methods", "Handlers where this should be the element", "call/apply/bind cannot rebind this"]
+  },
+  {
+    "id": 51,
+    "category": "JavaScript",
+    "topic": "Closures",
+    "difficulty": "Easy",
+    "question": "What is a closure in JavaScript? Explain with a simple example.",
+    "answer": "A closure is created when a function retains access to variables from its outer lexical scope even after the outer function has finished execution. For example, function counter() { let c = 0; return () => ++c; } returns a function that still remembers and updates c on every call.",
+    "keyPoints": ["Related to lexical scope", "Inner function retains access to outer variables", "Works after the outer function returns", "Useful for data encapsulation"]
+  },
+  {
+    "id": 52,
+    "category": "JavaScript",
+    "topic": "Closures",
+    "difficulty": "Medium",
+    "question": "How can closures be used to create private variables and data encapsulation? Give a practical example.",
+    "answer": "Variables declared in an outer function are not accessible from outside but remain accessible to inner functions that are returned. A bank account factory can keep balance private and return only deposit() and getBalance() functions. Each call to the factory creates an independent closure with its own private state, which is the basis of the module pattern.",
+    "keyPoints": ["Outer variables are hidden from outside", "Returned functions expose controlled access", "Each call creates independent state", "Module pattern"]
+  },
+  {
+    "id": 53,
+    "category": "JavaScript",
+    "topic": "Closures",
+    "difficulty": "Hard",
+    "question": "Describe a common closure pitfall inside loops and how to fix it. Can closures cause memory leaks?",
+    "answer": "With var in a loop, all closures share a single variable, so they all see its final value; fix it with let, an IIFE or by passing the value as an argument. Closures can cause memory leaks when they keep large objects or DOM nodes alive longer than necessary, for example a long-lived event handler referencing a big structure. Remove listeners and clear references when done.",
+    "keyPoints": ["Shared var in loops gives wrong values", "Fix with let or IIFE", "Closures keep referenced data alive", "Clean up listeners and references"]
+  },
+  {
+    "id": 54,
+    "category": "JavaScript",
+    "topic": "Closures",
+    "difficulty": "Hard",
+    "question": "How would you implement a memoize function using closures? What are its limitations?",
+    "answer": "memoize(fn) creates a cache (an object or Map) in its outer scope and returns a function that builds a key from the arguments, returns the cached result if present, and otherwise calls fn and stores the result. The cache persists through the closure. Limitations: keys from JSON.stringify can be slow or ambiguous, it only suits pure functions, and the cache can grow without bound.",
+    "keyPoints": ["Cache lives in the closure", "Key built from arguments", "Only for pure functions", "Unbounded cache growth"]
+  },
+  {
+    "id": 55,
+    "category": "JavaScript",
+    "topic": "Callbacks",
+    "difficulty": "Medium",
+    "question": "What is callback hell and how can you avoid it? Explain the role of error-first callbacks.",
+    "answer": "Callback hell is deeply nested callbacks for sequential asynchronous work, which makes code hard to read and to handle errors in. It can be avoided by naming functions, modularising, or using Promises and async/await. In the Node.js error-first convention, the callback's first argument is an error (or null) and the remaining arguments carry results, so each callback must check the error first.",
+    "keyPoints": ["Deep nesting of callbacks", "Fix with Promises or async/await", "Modularise and name functions", "Error-first convention"]
+  },
+  {
+    "id": 56,
+    "category": "JavaScript",
+    "topic": "Promises",
+    "difficulty": "Easy",
+    "question": "What is a Promise in JavaScript and what are its three states?",
+    "answer": "A Promise is an object representing the eventual result of an asynchronous operation. It starts as pending and then becomes either fulfilled with a value or rejected with a reason; once settled, its state cannot change. Handlers are attached with then(), catch() and finally().",
+    "keyPoints": ["Represents a future value", "Pending, fulfilled, rejected", "Settled state is final", "then, catch, finally"]
+  },
+  {
+    "id": 57,
+    "category": "JavaScript",
+    "topic": "Promises",
+    "difficulty": "Medium",
+    "question": "Explain promise chaining. What happens when a then handler returns a value, returns another promise, or throws an error?",
+    "answer": "Each then() returns a new promise. If the handler returns a plain value, the next promise resolves with it; if it returns a promise, the chain waits for that promise; if it throws, the next promise rejects and control jumps to the nearest catch(). A catch() that returns normally recovers the chain, and finally() runs regardless of the outcome.",
+    "keyPoints": ["then() returns a new promise", "Returned promises are awaited", "Throw leads to the nearest catch", "finally always runs"]
+  },
+  {
+    "id": 58,
+    "category": "JavaScript",
+    "topic": "Promises",
+    "difficulty": "Medium",
+    "question": "Compare Promise.all, Promise.allSettled, Promise.race and Promise.any. When would you use each?",
+    "answer": "Promise.all resolves with all results but rejects as soon as one rejects, which suits cases where every result is required. allSettled waits for all and reports each outcome, good for independent tasks. race settles with the first promise to settle (fulfil or reject), useful for timeouts. any resolves with the first fulfilled promise and rejects only if all reject, useful for fallback sources.",
+    "keyPoints": ["all: fail fast, need every result", "allSettled: report every outcome", "race: first to settle wins", "any: first fulfilled wins"]
+  },
+  {
+    "id": 59,
+    "category": "JavaScript",
+    "topic": "Promises",
+    "difficulty": "Hard",
+    "question": "Convert a callback-based function such as readFile(path, cb) into one that returns a Promise. Why is this useful?",
+    "answer": "Wrap the call in new Promise((resolve, reject) => ...) and in the callback call reject(err) if there is an error, otherwise resolve(data). This is promisification (Node has util.promisify). It lets legacy APIs work with then/catch and async/await, gives consistent error handling and avoids nested callbacks.",
+    "keyPoints": ["Wrap in new Promise", "reject on error, resolve on success", "util.promisify in Node", "Enables async/await with old APIs"]
+  },
+  {
+    "id": 60,
+    "category": "JavaScript",
+    "topic": "Async/Await",
+    "difficulty": "Easy",
+    "question": "How are async/await and Promises related? What does an async function always return?",
+    "answer": "async/await is syntax built on top of promises that lets asynchronous code read like synchronous code. An async function always returns a Promise: returned values are wrapped in a resolved promise and thrown errors become rejections. await pauses the function until the promise settles without blocking the main thread.",
+    "keyPoints": ["Syntax over promises", "async functions return a Promise", "await pauses only the function", "Main thread is not blocked"]
+  },
+  {
+    "id": 61,
+    "category": "JavaScript",
+    "topic": "Async/Await",
+    "difficulty": "Medium",
+    "question": "How do you handle errors with async/await? What happens if you forget to await a promise?",
+    "answer": "Wrap awaited calls in try/catch (with finally for cleanup), or attach catch() to the returned promise. If you forget await, the function continues immediately with a pending promise rather than the value, and a rejection may go unhandled because nothing is waiting to catch it, creating subtle bugs.",
+    "keyPoints": ["try/catch/finally with await", "Missing await gives a pending promise", "Unhandled rejections", "Or use .catch()"]
+  },
+  {
+    "id": 62,
+    "category": "JavaScript",
+    "topic": "Async/Await",
+    "difficulty": "Hard",
+    "question": "What is the difference between running awaits sequentially and in parallel? Why does using await inside forEach not behave as expected?",
+    "answer": "Awaiting inside a for loop runs tasks one after another, which is slow for independent work. For parallelism, start all promises first and use await Promise.all(promises). forEach ignores the promises returned by an async callback, so the surrounding code does not wait for them; use for...of for sequential work or Promise.all with map for parallel work.",
+    "keyPoints": ["Sequential awaits add up in time", "Promise.all for parallel work", "forEach does not wait for async callbacks", "Use for...of or map + Promise.all"]
+  },
+  {
+    "id": 63,
+    "category": "JavaScript",
+    "topic": "Event Loop",
+    "difficulty": "Medium",
+    "question": "JavaScript is single-threaded, yet it handles asynchronous operations. Explain the call stack, Web APIs, task queue and event loop.",
+    "answer": "The call stack executes one function at a time. Asynchronous operations such as timers, network requests and events are handled by browser (or Node) APIs outside the stack. When they complete, their callbacks are placed in a queue. The event loop repeatedly checks whether the call stack is empty and, if so, moves the next callback from the queue onto the stack, giving non-blocking behaviour with a single thread.",
+    "keyPoints": ["Call stack runs one thing at a time", "Async work happens outside the stack", "Callbacks wait in a queue", "Event loop moves them to the stack when it is empty"]
+  },
+  {
+    "id": 64,
+    "category": "JavaScript",
+    "topic": "Event Loop",
+    "difficulty": "Medium",
+    "question": "What is the difference between the microtask queue and the macrotask (task) queue? Which is processed first?",
+    "answer": "Microtasks include promise reactions (then, catch, finally), queueMicrotask and MutationObserver callbacks. Macrotasks include setTimeout, setInterval, I/O and UI events. After the current script or task finishes, the event loop drains the entire microtask queue before picking the next macrotask, so promise callbacks run before timer callbacks.",
+    "keyPoints": ["Microtasks: promises, queueMicrotask", "Macrotasks: timers, I/O, events", "Microtasks drained first", "Then the next macrotask"]
+  },
+  {
+    "id": 65,
+    "category": "JavaScript",
+    "topic": "Event Loop",
+    "difficulty": "Hard",
+    "question": "Predict the output and explain: console.log(1); setTimeout(() => console.log(2), 0); Promise.resolve().then(() => console.log(3)); console.log(4);",
+    "answer": "The output is 1, 4, 3, 2. The synchronous logs 1 and 4 run first on the call stack. The promise callback is queued as a microtask and runs as soon as the stack is empty, printing 3. The setTimeout callback is a macrotask that runs on a later loop iteration even with a 0 ms delay, printing 2.",
+    "keyPoints": ["Synchronous code first: 1, 4", "Microtask (promise) next: 3", "Macrotask (timer) last: 2", "0 ms delay does not mean immediate"]
+  },
+  {
+    "id": 66,
+    "category": "JavaScript",
+    "topic": "Event Loop",
+    "difficulty": "Hard",
+    "question": "What happens if a heavy computation runs on the main thread, and how can you prevent the UI from freezing?",
+    "answer": "The call stack stays busy, so the event loop cannot process events or render, which freezes the UI and delays timers. Solutions include splitting the work into chunks scheduled with setTimeout or requestIdleCallback, using Web Workers to run code on another thread, optimising the algorithm, or moving the work to the server.",
+    "keyPoints": ["Blocked stack blocks rendering and events", "Chunk work with timers or idle callbacks", "Web Workers for a separate thread", "Optimise or offload the work"]
+  },
+  {
+    "id": 67,
+    "category": "JavaScript",
+    "topic": "DOM",
+    "difficulty": "Easy",
+    "question": "What is the DOM, and how do you select an element and change its content with JavaScript?",
+    "answer": "The Document Object Model is a tree representation of the HTML document that JavaScript can read and modify. Elements can be selected with document.getElementById or document.querySelector and then changed via textContent, classList, style or setAttribute. Changes to the DOM update what the user sees.",
+    "keyPoints": ["Tree representation of the page", "getElementById / querySelector", "textContent, classList, setAttribute", "Changes update the page"]
+  },
+  {
+    "id": 68,
+    "category": "JavaScript",
+    "topic": "DOM",
+    "difficulty": "Medium",
+    "question": "Compare querySelector, getElementById and getElementsByClassName. Also explain innerHTML versus textContent and the security implications.",
+    "answer": "getElementById returns one element by id and is fast; querySelector returns the first match for any CSS selector; querySelectorAll returns a static NodeList, while getElementsByClassName returns a live HTMLCollection that updates with the DOM. innerHTML parses a string as HTML and can create XSS vulnerabilities if it contains user input; textContent inserts plain text safely.",
+    "keyPoints": ["querySelector accepts any CSS selector", "NodeList is static, HTMLCollection is live", "innerHTML can cause XSS", "textContent is safe for plain text"]
+  },
+  {
+    "id": 69,
+    "category": "JavaScript",
+    "topic": "Events",
+    "difficulty": "Easy",
+    "question": "How do you handle events in JavaScript? Compare addEventListener with inline handlers, and explain how to remove a listener.",
+    "answer": "addEventListener attaches one or more handlers to an element without overwriting existing ones and supports options like once and capture, keeping JavaScript separate from HTML. Inline handlers such as onclick in the markup mix concerns and allow only one handler per property. To remove a listener, call removeEventListener with the same event type and the same function reference (not a new anonymous copy).",
+    "keyPoints": ["addEventListener allows multiple handlers", "Inline handlers mix markup and logic", "removeEventListener needs the same function reference", "Options: once, capture, passive"]
+  },
+  {
+    "id": 70,
+    "category": "JavaScript",
+    "topic": "Event Bubbling",
+    "difficulty": "Medium",
+    "question": "Explain the phases of event propagation (capturing, target, bubbling). What is the difference between stopPropagation and preventDefault?",
+    "answer": "An event first travels down from the window to the target (capturing), fires on the target, then bubbles back up through its ancestors. Listeners run during bubbling by default. stopPropagation stops the event from reaching other elements in its path, while preventDefault cancels the browser's default action, such as following a link or submitting a form, without stopping propagation.",
+    "keyPoints": ["Capturing, target, bubbling", "Listeners run in the bubbling phase by default", "stopPropagation halts the path", "preventDefault cancels the default action"]
+  },
+  {
+    "id": 71,
+    "category": "JavaScript",
+    "topic": "Event Delegation",
+    "difficulty": "Medium",
+    "question": "What is event delegation and what are its benefits?",
+    "answer": "Event delegation attaches a single listener to a common parent and uses event bubbling to handle events from its children, identifying the source with event.target. Benefits are fewer listeners, lower memory use, simpler code and automatic handling of elements added to the DOM later.",
+    "keyPoints": ["One listener on the parent", "Relies on event bubbling", "Works for dynamically added elements", "Fewer listeners, less memory"]
+  },
+  {
+    "id": 72,
+    "category": "JavaScript",
+    "topic": "Event Delegation",
+    "difficulty": "Hard",
+    "question": "You have a to-do list where items are added dynamically and each has a delete button. How would you implement delegation? What is the difference between event.target and event.currentTarget, and why use closest()?",
+    "answer": "Add one click listener to the list; inside it, use event.target.closest('button.delete') to find the clicked delete button, then remove its parent item. event.target is the actual element clicked (possibly an icon inside the button), while currentTarget is the element the listener is attached to. closest() walks up from the target to find the matching ancestor, handling clicks on nested children.",
+    "keyPoints": ["Single listener on the list", "target = clicked element, currentTarget = listener element", "closest() finds the matching ancestor", "Handles items added later"]
+  },
+  {
+    "id": 73,
+    "category": "JavaScript",
+    "topic": "this",
+    "difficulty": "Easy",
+    "question": "What does this refer to in the global scope, inside an object method, inside a regular function and inside an arrow function?",
+    "answer": "In the global scope this is the global object (window in browsers; undefined at the top of a module). In an object method called as obj.method(), it refers to obj. In a regular function called plainly, it is the global object, or undefined in strict mode. Arrow functions have no own this and take it from the enclosing lexical scope.",
+    "keyPoints": ["Depends on how the function is called", "obj.method(): this is obj", "Plain call: global object or undefined in strict mode", "Arrow functions use lexical this"]
+  },
+  {
+    "id": 74,
+    "category": "JavaScript",
+    "topic": "this",
+    "difficulty": "Medium",
+    "question": "Explain call, apply and bind. How do they differ?",
+    "answer": "All three set the value of this explicitly. call invokes the function immediately with arguments passed individually, apply invokes immediately with arguments as an array, and bind returns a new function with this (and optionally some arguments) permanently fixed, to be called later.",
+    "keyPoints": ["All set this explicitly", "call: arguments listed", "apply: arguments as an array", "bind: returns a new bound function"]
+  },
+  {
+    "id": 75,
+    "category": "JavaScript",
+    "topic": "this",
+    "difficulty": "Hard",
+    "question": "Why does this get lost when you pass an object's method as a callback, such as setTimeout(obj.greet, 100)? Give at least three fixes.",
+    "answer": "Passing obj.greet passes only the function, detached from obj; when it is called later it is invoked as a plain function, so this is the global object or undefined. Fixes: wrap it in an arrow function (() => obj.greet()), use obj.greet.bind(obj), or define the method as an arrow-function class field so it captures this.",
+    "keyPoints": ["this depends on the call site, not definition", "Arrow wrapper", "bind(obj)", "Arrow function class field"]
+  },
+  {
+    "id": 76,
+    "category": "JavaScript",
+    "topic": "Prototypes",
+    "difficulty": "Medium",
+    "question": "Explain the prototype chain. How does JavaScript find a property that is not on an object itself?",
+    "answer": "Every object has an internal link to another object, its prototype. When you access a property, the engine looks at the object itself, then its prototype, then that prototype's prototype, and so on until it finds the property or reaches null, where it returns undefined. This chain is how JavaScript implements inheritance and shared methods.",
+    "keyPoints": ["Objects link to a prototype", "Lookup climbs the chain", "Ends at null, result undefined", "Basis of inheritance"]
+  },
+  {
+    "id": 77,
+    "category": "JavaScript",
+    "topic": "Prototypes",
+    "difficulty": "Medium",
+    "question": "What is the difference between __proto__ and prototype? What does Object.create do?",
+    "answer": "prototype is a property on constructor functions (and classes) that becomes the prototype of objects created with new. __proto__ (officially [[Prototype]], accessed through Object.getPrototypeOf) is the actual link from an instance to its prototype. Object.create(proto) creates a new object whose prototype is the given object, enabling inheritance without constructors.",
+    "keyPoints": ["prototype belongs to constructor functions", "__proto__ is the instance's link", "Instances link to Constructor.prototype", "Object.create sets the prototype directly"]
+  },
+  {
+    "id": 78,
+    "category": "JavaScript",
+    "topic": "Prototypes",
+    "difficulty": "Hard",
+    "question": "Explain step by step what the new operator does when you call new Person('Asha').",
+    "answer": "It creates a new empty object, links its prototype to Person.prototype, calls Person with this bound to the new object so properties get set, and returns that object, unless the constructor explicitly returns another object. Forgetting new on a plain constructor function makes this refer to the global object or undefined, which is one reason classes are safer.",
+    "keyPoints": ["Creates an empty object", "Links it to Constructor.prototype", "Runs the constructor with this = new object", "Returns the object"]
+  },
+  {
+    "id": 79,
+    "category": "JavaScript",
+    "topic": "Classes",
+    "difficulty": "Medium",
+    "question": "Are JavaScript classes real classes or syntactic sugar over prototypes? Explain with extends and super.",
+    "answer": "JavaScript classes are syntactic sugar over prototype-based inheritance: a class still creates a constructor function, and its methods are placed on the prototype. extends sets up the prototype chain between the child and the parent, and super() calls the parent constructor (required before using this in a derived constructor) while super.method() calls parent methods.",
+    "keyPoints": ["Sugar over prototypes", "Methods live on the prototype", "extends links the chains", "super() before this in derived constructors"]
+  },
+  {
+    "id": 80,
+    "category": "JavaScript",
+    "topic": "Classes",
+    "difficulty": "Hard",
+    "question": "Explain private fields (#), static members and getters/setters in classes. How does # privacy differ from privacy using closures?",
+    "answer": "Fields starting with # are truly private and accessible only inside the class body; static members belong to the class itself, not to instances; getters and setters define computed or validated properties. Closure-based privacy hides variables inside factory functions, but each instance gets its own copies of the methods, whereas # fields keep methods on the prototype and are enforced by the language.",
+    "keyPoints": ["# fields are private to the class body", "static belongs to the class", "get/set for computed or validated properties", "Closures duplicate methods per instance"]
+  },
+  {
+    "id": 81,
+    "category": "JavaScript",
+    "topic": "ES6+",
+    "difficulty": "Medium",
+    "question": "Name and explain five ES6+ features that improved how modern JavaScript is written, giving a use for each.",
+    "answer": "Examples: let and const for block scope; arrow functions for concise callbacks; template literals for interpolated strings; destructuring and spread for handling objects and arrays; modules (import/export) for organisation; optional chaining (?.) and nullish coalescing (??) for safe access and defaults; and promises with async/await for asynchronous flows.",
+    "keyPoints": ["let/const and arrow functions", "Template literals", "Destructuring and spread", "Modules, optional chaining, async/await"]
+  },
+  {
+    "id": 82,
+    "category": "JavaScript",
+    "topic": "== vs ===",
+    "difficulty": "Easy",
+    "question": "What is the difference between == and ===? Give examples where they produce different results.",
+    "answer": "== is loose equality, which converts types (type coercion) before comparing, while === is strict equality, comparing value and type without conversion. For example 5 == '5' is true but 5 === '5' is false; 0 == false is true but 0 === false is false. Strict equality is preferred for predictable behaviour.",
+    "keyPoints": ["== coerces types", "=== compares value and type", "5 == '5' true, 5 === '5' false", "Prefer ==="]
+  },
+  {
+    "id": 83,
+    "category": "JavaScript",
+    "topic": "== vs ===",
+    "difficulty": "Medium",
+    "question": "Predict and explain: [] == false, null == undefined, null === undefined, NaN === NaN. How can you correctly check for NaN?",
+    "answer": "[] == false is true because both sides are coerced to primitives (the empty array to an empty string and then 0, and false to 0). null == undefined is true by a special rule, but null === undefined is false since the types differ. NaN === NaN is false because NaN is not equal to anything, including itself. Use Number.isNaN(x) or Object.is(x, NaN).",
+    "keyPoints": ["Coercion rules explain [] == false", "null == undefined is a special case", "NaN is not equal to itself", "Use Number.isNaN or Object.is"]
+  },
+  {
+    "id": 84,
+    "category": "JavaScript",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "question": "Explain map, filter and reduce and when you would use each. Which array methods mutate the original array?",
+    "answer": "map transforms each element and returns a new array of the same length; filter returns a new array with the elements that pass a test; reduce combines elements into a single value using an accumulator. These do not mutate the original. push, pop, shift, unshift, splice, sort and reverse do mutate the original array.",
+    "keyPoints": ["map: transform each item", "filter: keep matching items", "reduce: combine into one value", "Mutating: push, pop, splice, sort, reverse"]
+  },
+  {
+    "id": 85,
+    "category": "JavaScript",
+    "topic": "Objects",
+    "difficulty": "Medium",
+    "question": "What is the difference between shallow and deep copying an object? Compare spread, Object.assign, structuredClone and JSON.parse(JSON.stringify()).",
+    "answer": "A shallow copy (spread or Object.assign) copies top-level properties, but nested objects are still shared. A deep copy duplicates nested structures as well. structuredClone makes a proper deep copy (including dates, maps and sets, but not functions). JSON.parse(JSON.stringify()) loses functions and undefined, turns dates into strings, and fails on circular references.",
+    "keyPoints": ["Spread and Object.assign are shallow", "structuredClone gives a deep copy", "JSON round trip loses types", "Circular references break JSON copy"]
+  },
+  {
+    "id": 86,
+    "category": "JavaScript",
+    "topic": "Destructuring",
+    "difficulty": "Easy",
+    "question": "Explain array and object destructuring with default values and renaming. How is it useful in function parameters?",
+    "answer": "Destructuring extracts values into variables in one statement: const [a, b] = arr; and const { name, age = 18, city: town } = user; where the default applies when the value is undefined and city is renamed to town. In function parameters it lets you accept an options object and pick fields directly with defaults, making the function signature self-documenting.",
+    "keyPoints": ["Extract values into variables", "Defaults apply for undefined", "Rename with a colon", "Useful for options objects"]
+  },
+  {
+    "id": 87,
+    "category": "JavaScript",
+    "topic": "Spread/Rest operators",
+    "difficulty": "Easy",
+    "question": "What is the difference between the spread operator and the rest parameter? Give examples of each.",
+    "answer": "Both use ..., but spread expands an iterable or object into individual items, for example [...a, ...b], {...obj, x: 1} or Math.max(...nums). Rest collects the remaining items into an array, for example function sum(...nums) or const [first, ...others] = arr. Spread is used where values are provided; rest is used where values are received.",
+    "keyPoints": ["Same syntax, opposite roles", "Spread expands", "Rest collects", "Copying and merging with spread"]
+  },
+  {
+    "id": 88,
+    "category": "JavaScript",
+    "topic": "Local Storage",
+    "difficulty": "Medium",
+    "question": "Compare localStorage, sessionStorage and cookies. How do you store and read an object, and what are the limitations and risks?",
+    "answer": "localStorage persists until cleared, sessionStorage lasts for the tab session, and cookies are small, can expire, and are sent to the server with every request. Storage holds only strings, so objects are saved with JSON.stringify and read with JSON.parse. Limitations: roughly 5 MB, a synchronous API, same-origin only, and access from scripts, so sensitive data such as tokens should not be stored without considering XSS.",
+    "keyPoints": ["Persistence differs: local, session, cookie", "Only strings, so use JSON", "About 5 MB, synchronous", "Vulnerable to XSS, avoid secrets"]
+  },
+  {
+    "id": 89,
+    "category": "JavaScript",
+    "topic": "Error Handling",
+    "difficulty": "Medium",
+    "question": "Explain try/catch/finally and custom errors. Why can't try/catch catch errors thrown inside a setTimeout callback?",
+    "answer": "try runs code that may throw, catch handles the error and finally always runs for cleanup. Custom errors extend Error to add meaning and fields. A setTimeout callback runs later, after the try block has finished and left the call stack, so the error is thrown in a different execution context; handle it inside the callback itself or use promises with catch.",
+    "keyPoints": ["try, catch, finally roles", "Custom errors extend Error", "Async callbacks run outside the try block", "Handle inside the callback or use promises"]
+  },
+  {
+    "id": 90,
+    "category": "JavaScript",
+    "topic": "Error Handling",
+    "difficulty": "Hard",
+    "question": "What is an unhandled promise rejection, and how can you detect and prevent it in browsers and Node.js?",
+    "answer": "It happens when a promise rejects and no catch handler or try/catch around await deals with it. It can crash a Node process or produce console warnings. Prevent it by always adding catch() or try/catch and returning promises properly. As a safety net, listen to the unhandledrejection event in browsers and process.on('unhandledRejection') in Node for logging.",
+    "keyPoints": ["Rejection with no handler", "Always catch or try/catch", "unhandledrejection event in browsers", "process.on('unhandledRejection') in Node"]
+  },
+  {
+    "id": 91,
+    "category": "HTML",
+    "topic": "HTML basics",
+    "difficulty": "Easy",
+    "question": "Describe the basic structure of an HTML5 document. What is the purpose of the doctype, head and body?",
+    "answer": "An HTML document starts with <!DOCTYPE html>, which tells the browser to use standards mode, followed by the html element that contains head and body. The head holds metadata that is not displayed directly, such as the title, meta tags, styles and links to scripts. The body contains the visible content.",
+    "keyPoints": ["Doctype enables standards mode", "html contains head and body", "head: metadata, title, links", "body: visible content"]
+  },
+  {
+    "id": 92,
+    "category": "HTML",
+    "topic": "HTML basics",
+    "difficulty": "Medium",
+    "question": "Explain block versus inline elements with examples. How does the browser turn HTML into what appears on screen?",
+    "answer": "Block elements (div, p, h1, section) start on a new line and take the full available width; inline elements (span, a, strong) flow within text and take only the space they need. The browser parses HTML into the DOM tree, combines it with CSS into a render tree, calculates layout and then paints the pixels.",
+    "keyPoints": ["Block: new line, full width", "Inline: flows within text", "HTML parsed into the DOM", "Render tree, layout, paint"]
+  },
+  {
+    "id": 93,
+    "category": "HTML",
+    "topic": "Semantic HTML",
+    "difficulty": "Easy",
+    "question": "What is semantic HTML? Give examples of semantic and non-semantic elements.",
+    "answer": "Semantic HTML uses elements whose names describe their meaning, such as header, nav, main, article, section, aside, footer, figure and time. Non-semantic elements such as div and span say nothing about their content. Semantic elements make the structure clear to browsers, developers, search engines and assistive technology.",
+    "keyPoints": ["Elements that describe meaning", "header, nav, main, article, footer", "div and span are non-semantic", "Helps accessibility and SEO"]
+  },
+  {
+    "id": 94,
+    "category": "HTML",
+    "topic": "Semantic HTML",
+    "difficulty": "Medium",
+    "question": "Why should semantic HTML elements be used instead of using div elements for everything?",
+    "answer": "Semantic elements provide meaning and structure to the content, improving accessibility, SEO and maintainability. Screen readers can navigate by landmarks like nav and main, search engines understand page structure better, and developers can read the code more easily.",
+    "keyPoints": ["Improves accessibility", "Helps search engines understand content", "Improves code readability", "Landmarks aid navigation"]
+  },
+  {
+    "id": 95,
+    "category": "HTML",
+    "topic": "Semantic HTML",
+    "difficulty": "Hard",
+    "question": "You are given a blog page with a site header, navigation, a main post, related links, comments and a footer. How would you structure it using semantic elements, and when do you choose article versus section?",
+    "answer": "Use header for the site heading, nav for navigation, main for the primary content containing an article for the post (with its own header and footer), aside for related links, a section for the comments group with a heading, and footer for site information. Use article for self-contained content that makes sense on its own (a post or a comment) and section for a thematic grouping that normally has a heading.",
+    "keyPoints": ["header, nav, main, aside, footer landmarks", "article for self-contained content", "section for a thematic group with a heading", "Only one main per page"]
+  },
+  {
+    "id": 96,
+    "category": "HTML",
+    "topic": "Forms",
+    "difficulty": "Easy",
+    "question": "What is the purpose of the form element? Explain action, method and the difference between GET and POST.",
+    "answer": "A form collects user input and submits it to a server. action is the URL that receives the data and method is the HTTP method. GET appends data to the URL query string, so it is visible, bookmarkable and suited to searches; POST sends data in the request body, is not shown in the URL and suits changes such as login or sign-up.",
+    "keyPoints": ["action = destination URL", "method = HTTP method", "GET: data in the URL, for searches", "POST: data in the body, for changes"]
+  },
+  {
+    "id": 97,
+    "category": "HTML",
+    "topic": "Forms",
+    "difficulty": "Medium",
+    "question": "Why are the label element, the name attribute, fieldset and legend important in forms?",
+    "answer": "A label linked with for/id (or wrapping the input) gives the field an accessible name and enlarges the click target. The name attribute is the key under which the value is submitted; inputs without it are not sent. fieldset groups related controls and legend gives the group a caption, helping screen-reader users understand radio groups and address sections.",
+    "keyPoints": ["label links text to the input", "name is the submitted key", "fieldset groups controls", "legend captions the group"]
+  },
+  {
+    "id": 98,
+    "category": "HTML",
+    "topic": "Forms",
+    "difficulty": "Hard",
+    "question": "How do you upload a file through an HTML form? Explain enctype and what happens if it is omitted.",
+    "answer": "Use method='post', an input of type file and set enctype='multipart/form-data' on the form. This encodes the request in parts so binary file data can be sent along with other fields. With the default application/x-www-form-urlencoded encoding, only the file name is sent, not the file contents.",
+    "keyPoints": ["input type='file'", "method POST", "enctype='multipart/form-data'", "Default encoding sends only the file name"]
+  },
+  {
+    "id": 99,
+    "category": "HTML",
+    "topic": "Input types",
+    "difficulty": "Easy",
+    "question": "Name five HTML5 input types and explain the benefits of using them over plain text inputs.",
+    "answer": "Examples are email, number, date, tel, url, range, color and search. They give built-in validation, mobile keyboards tailored to the data (such as a numeric keypad), native pickers such as date and colour selectors, and better accessibility, all without extra JavaScript.",
+    "keyPoints": ["email, number, date, tel, url, range, color", "Built-in validation", "Appropriate mobile keyboards", "Native pickers"]
+  },
+  {
+    "id": 100,
+    "category": "HTML",
+    "topic": "Input types",
+    "difficulty": "Medium",
+    "question": "When would you use checkbox versus radio buttons versus a select element? What is a datalist and what are hidden inputs used for?",
+    "answer": "Radio buttons (sharing a name) allow exactly one choice from a few options, checkboxes allow multiple independent choices, and select suits long lists. A datalist supplies suggestions for a text input while still allowing free text. Hidden inputs carry data such as IDs or tokens with the form; they are visible in the page source, so they must never be trusted or hold secrets.",
+    "keyPoints": ["Radio: one of few", "Checkbox: many independent", "Select for long lists", "Hidden inputs are visible in source"]
+  },
+  {
+    "id": 101,
+    "category": "HTML",
+    "topic": "Tables",
+    "difficulty": "Easy",
+    "question": "Describe the structure of an HTML table, including thead, tbody, tfoot, th, colspan and rowspan.",
+    "answer": "A table uses tr for rows and td for cells, with th for header cells. thead, tbody and tfoot group the header, body and footer rows. colspan and rowspan let a cell span multiple columns or rows. A caption element gives the table a title.",
+    "keyPoints": ["tr, td, th", "thead, tbody, tfoot grouping", "colspan and rowspan", "caption titles the table"]
+  },
+  {
+    "id": 102,
+    "category": "HTML",
+    "topic": "Tables",
+    "difficulty": "Medium",
+    "question": "Why should tables not be used for page layout? How do you make data tables accessible and responsive?",
+    "answer": "Tables express tabular data; using them for layout confuses screen readers, is inflexible on different screen sizes and mixes structure with presentation. Use CSS grid or flexbox for layout. For data tables, use th with scope, a caption and thead/tbody, and for responsiveness wrap the table in a horizontally scrollable container or restyle rows for small screens.",
+    "keyPoints": ["Tables are for tabular data", "Use CSS grid or flexbox for layout", "th with scope and caption", "Scrollable wrapper for small screens"]
+  },
+  {
+    "id": 103,
+    "category": "HTML",
+    "topic": "Lists",
+    "difficulty": "Easy",
+    "question": "Explain the differences between ul, ol and dl, and give a use case for each.",
+    "answer": "ul is an unordered list for items with no sequence, such as navigation links; ol is an ordered list for sequences such as steps or rankings (with attributes like start and reversed); dl is a description list of term (dt) and description (dd) pairs, such as glossaries or metadata. Lists are also commonly used to mark up navigation menus.",
+    "keyPoints": ["ul: unordered items", "ol: ordered sequence", "dl: term and description pairs", "li is the list item"]
+  },
+  {
+    "id": 104,
+    "category": "HTML",
+    "topic": "Links",
+    "difficulty": "Easy",
+    "question": "Explain the anchor tag, the difference between absolute and relative URLs, and why target='_blank' should be used with rel='noopener'.",
+    "answer": "The anchor element a with href creates a hyperlink. An absolute URL includes the full address (https://example.com/page), while a relative URL is resolved against the current page (such as /about or ../img). target='_blank' opens a new tab; without rel='noopener' older browsers let the new page access window.opener and potentially redirect the original page. Modern browsers apply noopener by default, but adding it is still good practice.",
+    "keyPoints": ["a with href creates a link", "Absolute vs relative URL", "_blank opens a new tab", "rel='noopener' prevents window.opener access"]
+  },
+  {
+    "id": 105,
+    "category": "HTML",
+    "topic": "Links",
+    "difficulty": "Medium",
+    "question": "How do fragment links, mailto, tel and the download attribute work? When should you use a link rather than a button?",
+    "answer": "Fragment links (href='#section') jump to the element with that id; mailto: and tel: open the email or phone app; the download attribute prompts saving the file. Use a link to navigate to another page or location and a button to perform an action on the current page, like submitting or toggling; using the wrong one hurts accessibility and expected keyboard behaviour.",
+    "keyPoints": ["#id jumps to an element", "mailto: and tel: schemes", "download attribute saves the file", "Link navigates, button acts"]
+  },
+  {
+    "id": 106,
+    "category": "HTML",
+    "topic": "Images",
+    "difficulty": "Medium",
+    "question": "Why is the alt attribute important? How do srcset, sizes, the picture element and loading='lazy' improve images?",
+    "answer": "alt provides a text alternative for screen readers, when images fail to load and for SEO; decorative images should use an empty alt. srcset and sizes let the browser choose an appropriately sized file for the device, picture allows different formats or art-directed crops, and loading='lazy' defers offscreen images, improving performance and bandwidth use.",
+    "keyPoints": ["alt for accessibility and SEO", "srcset and sizes for responsive images", "picture for formats and art direction", "loading='lazy' defers offscreen images"]
+  },
+  {
+    "id": 107,
+    "category": "HTML",
+    "topic": "Audio/Video",
+    "difficulty": "Easy",
+    "question": "How do you embed audio and video in HTML5? Explain the controls attribute, multiple source elements and the track element.",
+    "answer": "Use the audio and video elements with the controls attribute to show playback controls. Multiple source elements with different formats (MP4, WebM, MP3, OGG) let the browser choose the first one it supports, and content inside the element is the fallback. track adds subtitles, captions or descriptions using WebVTT files.",
+    "keyPoints": ["audio and video elements", "controls shows the player UI", "source elements provide format fallbacks", "track adds captions or subtitles"]
+  },
+  {
+    "id": 108,
+    "category": "HTML",
+    "topic": "Audio/Video",
+    "difficulty": "Medium",
+    "question": "What issues should you consider with autoplay, formats and accessibility when using video on a website?",
+    "answer": "Browsers usually block autoplay with sound, allowing it only when muted or after user interaction, and autoplay can annoy users and waste data. Not all browsers support all codecs, so provide fallbacks. For accessibility, provide captions, transcripts and controls that work by keyboard, and use preload and poster to manage loading.",
+    "keyPoints": ["Autoplay restrictions and muted playback", "Codec fallbacks", "Captions and transcripts", "poster and preload attributes"]
+  },
+  {
+    "id": 109,
+    "category": "HTML",
+    "topic": "HTML5 features",
+    "difficulty": "Medium",
+    "question": "List the major features introduced in HTML5 and explain how they reduced the need for plugins like Flash.",
+    "answer": "HTML5 added semantic elements, native audio and video, canvas and SVG for graphics, new form controls and validation, Web Storage, geolocation, drag and drop, Web Workers and offline capabilities. These provide built-in multimedia, drawing and storage without third-party plugins, improving security, performance and mobile support.",
+    "keyPoints": ["Semantic elements and new form controls", "Native audio, video, canvas, SVG", "Web Storage, geolocation, workers", "No third-party plugins needed"]
+  },
+  {
+    "id": 110,
+    "category": "HTML",
+    "topic": "HTML5 features",
+    "difficulty": "Hard",
+    "question": "Compare canvas and inline SVG. In which scenarios would you choose each?",
+    "answer": "Canvas is a bitmap drawn with JavaScript pixel by pixel, suited to games, real-time animation and large numbers of objects, but drawn shapes are not individual DOM elements. SVG is vector-based and resolution-independent, and each shape is a DOM element that can be styled, scripted and made accessible, so it suits logos, icons, charts and diagrams with a moderate number of elements.",
+    "keyPoints": ["Canvas: bitmap, immediate mode", "SVG: vector, DOM elements", "Canvas for games and heavy animation", "SVG for icons, charts, scalable graphics"]
+  },
+  {
+    "id": 111,
+    "category": "HTML",
+    "topic": "Accessibility",
+    "difficulty": "Medium",
+    "question": "What is web accessibility and what basic HTML practices support it?",
+    "answer": "Accessibility means people with disabilities can perceive, operate and understand a website, including with screen readers or a keyboard only. Basic practices include semantic elements, a logical heading hierarchy, alt text, labels for form controls, keyboard-focusable interactive elements with visible focus, sufficient colour contrast and captions for media.",
+    "keyPoints": ["Usable with assistive technology", "Semantic HTML and heading order", "alt text and form labels", "Keyboard support and contrast"]
+  },
+  {
+    "id": 112,
+    "category": "HTML",
+    "topic": "Accessibility",
+    "difficulty": "Hard",
+    "question": "When is ARIA needed? Explain the first rule of ARIA, the difference between aria-label and a visible label, and how you would test accessibility.",
+    "answer": "ARIA adds roles, states and properties where native HTML cannot express a custom widget. The first rule is to use a native element (like button) when one is available instead of adding ARIA to a div. aria-label gives an accessible name that is not visible, whereas a label element is visible and also helps all users. Test with keyboard-only navigation, screen readers such as NVDA or VoiceOver, and tools like Lighthouse or axe.",
+    "keyPoints": ["Native elements before ARIA", "ARIA for custom widgets", "aria-label is invisible, label is visible", "Test with keyboard, screen reader and audit tools"]
+  },
+  {
+    "id": 113,
+    "category": "HTML",
+    "topic": "SEO-related HTML",
+    "difficulty": "Medium",
+    "question": "Which HTML elements and attributes help SEO, and how?",
+    "answer": "A unique descriptive title and meta description, a single logical h1 with an ordered heading hierarchy, semantic structure, descriptive link text, alt text on images, canonical links to avoid duplicates and crawlable links all help search engines understand and present the page. A mobile-friendly viewport meta tag also matters.",
+    "keyPoints": ["Title and meta description", "Logical heading hierarchy", "Descriptive link text and alt text", "Canonical and viewport tags"]
+  },
+  {
+    "id": 114,
+    "category": "HTML",
+    "topic": "SEO-related HTML",
+    "difficulty": "Hard",
+    "question": "What is structured data (such as JSON-LD), and how does a canonical link affect search results?",
+    "answer": "Structured data (schema.org markup, usually JSON-LD in a script tag) describes the page's content explicitly, for example a recipe, product or event, enabling rich results such as ratings or images. A canonical link tells search engines which URL is the preferred version when the same content is reachable from several URLs, consolidating ranking signals and avoiding duplicate-content issues.",
+    "keyPoints": ["Structured data describes content explicitly", "JSON-LD with schema.org vocabulary", "Enables rich results", "Canonical link picks the preferred URL"]
+  },
+  {
+    "id": 115,
+    "category": "HTML",
+    "topic": "id vs class",
+    "difficulty": "Easy",
+    "question": "What is the difference between id and class attributes? When would you use each?",
+    "answer": "An id must be unique within a page and identifies one element, useful for fragment links, label associations (for/id) and JavaScript hooks. A class can be shared by many elements and an element can have multiple classes, so it is used for reusable styling. Prefer classes for CSS because ids have high specificity.",
+    "keyPoints": ["id is unique per page", "class is reusable", "Multiple classes per element", "Prefer classes for styling"]
+  },
+  {
+    "id": 116,
+    "category": "HTML",
+    "topic": "data-* attributes",
+    "difficulty": "Medium",
+    "question": "What are data-* attributes and how can you access them from JavaScript? Give a practical use case and a warning.",
+    "answer": "Custom data attributes let you store extra information on HTML elements, such as data-user-id='42'. In JavaScript they are read through element.dataset (dataset.userId) and can be used in CSS selectors. Use cases include storing IDs for buttons in a list or configuration for scripts. Do not store sensitive information because it is visible to anyone.",
+    "keyPoints": ["Custom attributes starting with data-", "Read via element.dataset", "Useful for IDs and configuration", "Never store sensitive data"]
+  },
+  {
+    "id": 117,
+    "category": "HTML",
+    "topic": "Form Validation",
+    "difficulty": "Medium",
+    "question": "What built-in HTML5 validation attributes exist, and what are their limitations?",
+    "answer": "Attributes include required, minlength, maxlength, min, max, step, pattern and input types like email and url. Browsers block submission and show messages for invalid fields, and CSS can style :valid and :invalid. Limits: they are easily bypassed by editing the DOM or sending requests directly, messages differ across browsers, and complex rules need JavaScript.",
+    "keyPoints": ["required, pattern, min/max, length attributes", "Browser blocks invalid submission", ":valid and :invalid styling", "Easily bypassed, so validate on the server too"]
+  },
+  {
+    "id": 118,
+    "category": "HTML",
+    "topic": "Form Validation",
+    "difficulty": "Hard",
+    "question": "Why is client-side validation not enough? Explain the Constraint Validation API and setCustomValidity.",
+    "answer": "Client-side validation improves user experience but can be bypassed, so the server must always validate and sanitise input. The Constraint Validation API lets JavaScript check validity (checkValidity and the validity object) and customise messages. setCustomValidity('message') marks a field invalid with a custom message, and calling it with an empty string clears the error.",
+    "keyPoints": ["Client checks can be bypassed", "Always validate on the server", "checkValidity and validity object", "setCustomValidity sets or clears messages"]
+  },
+  {
+    "id": 119,
+    "category": "HTML",
+    "topic": "Meta tags",
+    "difficulty": "Easy",
+    "question": "Explain the purpose of meta charset, meta viewport and meta description.",
+    "answer": "meta charset='UTF-8' tells the browser which character encoding to use so text displays correctly. The viewport meta tag (width=device-width, initial-scale=1) makes the layout adapt to the device width on mobile. The description meta provides a summary that search engines may show in result snippets.",
+    "keyPoints": ["charset sets the encoding", "viewport enables responsive layout", "description feeds search snippets", "All belong in the head"]
+  },
+  {
+    "id": 120,
+    "category": "HTML",
+    "topic": "Meta tags",
+    "difficulty": "Medium",
+    "question": "What are Open Graph tags, the robots meta tag and http-equiv, and how do they affect how your page is shared or indexed?",
+    "answer": "Open Graph (og:title, og:image, og:description) and Twitter Card tags control how links preview on social platforms. The robots meta tag (noindex, nofollow) instructs search engines whether to index the page or follow its links. http-equiv simulates HTTP headers, such as refresh or a content security policy, though real headers are preferred.",
+    "keyPoints": ["Open Graph controls social previews", "robots: noindex / nofollow", "http-equiv mimics HTTP headers", "Real headers are preferred"]
+  }
+]

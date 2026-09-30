@@ -280,7 +280,7 @@
           <button class="btn mark-btn" data-action="mark" aria-pressed="${isMarked}">${isMarked ? '⭐ Marked for Review' : '⭐ Mark for Review'}</button>
         </div>
 
-        <div class="answer" id="answer" ${state.revealed ? '' : 'hidden'}>
+        <div class="answer" id="answer">
           <h3>Expected Answer</h3>
           <p>${esc(q.answer)}</p>
           ${points}
@@ -289,7 +289,6 @@
 
       <div class="qnav">
         <button class="btn" data-action="prev" ${state.index === 0 ? 'disabled' : ''}>← Previous</button>
-        <button class="btn btn-primary" id="toggle-answer" data-action="toggle-answer" aria-expanded="${state.revealed}" aria-controls="answer">${state.revealed ? '🙈 Hide Answer' : '👁 Show Answer'}</button>
         <button class="btn" data-action="next" ${isLast && !finishes ? 'disabled' : ''}>${finishes ? 'Finish ✓' : 'Next →'}</button>
       </div>
       <p class="kbd-hint"><kbd>←</kbd> previous, <kbd>→</kbd> next, <kbd>Space</kbd> show or hide answer</p>`;
@@ -494,12 +493,6 @@
     renderViewer(focusAction);
   }
 
-  function toggleAnswer(focusAction) {
-    if (!state.deck.length) return;
-    state.revealed = !state.revealed;
-    renderViewer(focusAction);
-  }
-
   function toggleMark(focusAction) {
     const q = state.deck[state.index];
     if (!q) return;
@@ -552,7 +545,6 @@
       case 'difficulty': state.filter.difficulty = el.dataset.difficulty; state.filter.topic = 'All'; applyBrowseFilter(); render(); break;
       case 'prev': go(-1, focus); break;
       case 'next': go(1, focus); break;
-      case 'toggle-answer': toggleAnswer(focus); break;
       case 'mark': toggleMark(focus); break;
       case 'open-result': openDeck(state.results, Number(el.dataset.index), 'result'); break;
       case 'back-results': setView('search'); break;
@@ -616,11 +608,6 @@
     if (!questionOnScreen() || e.ctrlKey || e.metaKey || e.altKey || isTyping(e.target)) return;
     if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
     else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
-    else if (e.key === ' ' && !/^(BUTTON|A|SUMMARY)$/.test(e.target.tagName)) { e.preventDefault(); toggleAnswer(); }
-  });
-  document.addEventListener('keyup', (e) => {
-    // stop a stray Space keyup from activating a focused control after the shortcut fired
-    if (e.key === ' ' && questionOnScreen() && !isTyping(e.target) && !/^(BUTTON|A|SUMMARY)$/.test(e.target.tagName)) e.preventDefault();
   });
 
   /* ---------- start ---------- */

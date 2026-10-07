@@ -18,9 +18,12 @@
   --easy: #17724a;
   --medium: #8a5a00;
   --hard: #b3261e;
+  --code-bg: #0f1e3a;
+  --code-text: #e7ecf7;
   --shadow: 0 1px 2px rgba(15, 30, 58, 0.06), 0 6px 20px rgba(15, 30, 58, 0.06);
   --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 :root[data-theme="dark"] {
@@ -37,6 +40,8 @@
   --easy: #5fd3a0;
   --medium: #f0be5a;
   --hard: #ff8a80;
+  --code-bg: #0a0f1c;
+  --code-text: #dfe6f7;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -115,13 +120,15 @@ button { cursor: pointer; }
 }
 .searchbox input::placeholder { color: var(--muted); }
 
-.topbar-actions { display: flex; gap: 6px; }
+.topbar-actions { display: flex; gap: 6px; align-items: center; }
 
 .count-pill {
   display: inline-block; min-width: 1.5em; padding: 0 6px;
   border-radius: 999px; text-align: center;
   background: var(--primary-soft); font-size: 0.8rem; font-weight: 600;
 }
+
+.set-pill { font-weight: 600; color: var(--primary); }
 
 /* ---------- Buttons ---------- */
 
@@ -163,7 +170,7 @@ button { cursor: pointer; }
 
 /* ---------- Dashboard ---------- */
 
-.hero { padding: 28px 0 30px; }
+.hero { padding: 28px 0 24px; }
 .hero h1 {
   font-family: var(--font-serif);
   font-size: clamp(2.2rem, 6vw, 3.6rem);
@@ -172,6 +179,24 @@ button { cursor: pointer; }
 }
 .hero p { color: var(--muted); font-size: 1.1rem; max-width: 52ch; margin: 14px 0 24px; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Question set picker */
+.setpick { margin-bottom: 28px; }
+.setpick h2 { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 4px; }
+.setpick .page-sub { margin-bottom: 14px; }
+.sets { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.set-card {
+  display: flex; flex-direction: column; gap: 2px; text-align: left;
+  padding: 16px 18px; border-radius: 14px;
+  background: var(--card); border: 2px solid var(--line);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.set-card:hover { border-color: var(--primary); }
+.set-card[aria-pressed="true"] { border-color: var(--primary); background: var(--primary-soft); }
+.set-name { font-weight: 600; font-size: 1.1rem; }
+.set-label { color: var(--primary); font-weight: 600; font-size: 0.92rem; }
+.set-blurb { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+.set-count { font-size: 0.85rem; margin-top: 6px; font-variant-numeric: tabular-nums; }
 
 .cats {
   display: grid; gap: 18px;
@@ -271,6 +296,8 @@ table.totals tfoot th, table.totals tfoot td { border-bottom: 0; font-weight: 60
 }
 .badge b { font-weight: 600; }
 .badge.diff { color: var(--diff); border-color: currentColor; font-weight: 600; }
+.badge.type { background: var(--primary-soft); border-color: transparent; color: var(--primary); font-weight: 600; }
+.badge.setb { font-weight: 600; }
 .dots { display: inline-flex; gap: 3px; }
 .dots i { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid currentColor; }
 .dots i.on { background: currentColor; }
@@ -281,6 +308,17 @@ table.totals tfoot th, table.totals tfoot td { border-bottom: 0; font-weight: 60
   font-size: clamp(1.4rem, 3.2vw, 1.95rem); line-height: 1.38; font-weight: 500;
   letter-spacing: -0.005em; max-width: 46em;
 }
+
+/* Code shown in questions and solutions */
+pre.code {
+  margin: 16px 0 0; padding: 14px 16px;
+  background: var(--code-bg); color: var(--code-text);
+  border-radius: 12px; overflow-x: auto;
+  font-family: var(--font-mono); font-size: 0.9rem; line-height: 1.55;
+  tab-size: 2; max-width: 100%;
+}
+pre.code code { font-family: inherit; white-space: pre; }
+.answer pre.code { margin-top: 8px; }
 
 .qtools { margin-top: 20px; }
 .mark-btn[aria-pressed="true"] { border-color: var(--star); background: color-mix(in srgb, var(--star) 18%, transparent); font-weight: 600; }
@@ -364,7 +402,6 @@ kbd { font-family: inherit; border: 1px solid var(--line); border-bottom-width: 
   #app { padding: 20px 14px 56px; }
   .qcard { padding: 20px 18px; }
   .qnav { grid-template-columns: 1fr 1fr; }
-  .qnav #toggle-answer { grid-column: 1 / -1; order: -1; }
   .kbd-hint { display: none; }
 }
 

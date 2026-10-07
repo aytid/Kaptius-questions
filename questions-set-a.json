@@ -1,0 +1,490 @@
+[
+  {
+    "id": 1,
+    "category": "OOPS",
+    "topic": "Classes & Objects",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "Explain the difference between a class and an object using a real-world example. How many objects can one class create?",
+    "answer": "A class is a blueprint that defines the attributes (data) and behaviours (methods) common to a group of things. An object is a concrete instance of that class with its own state. For example, a Car class defines colour, speed and drive(); every car on the road is an object with its own values. One class can create any number of objects.",
+    "keyPoints": [
+      "Class = blueprint, object = instance",
+      "Each object has its own state",
+      "One class, many objects",
+      "Objects share the behaviour defined by the class"
+    ]
+  },
+  {
+    "id": 2,
+    "category": "OOPS",
+    "topic": "this and super",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What do the keywords this and super refer to? Show a small example in which a child constructor uses both.",
+    "answer": "this refers to the current object and is used to separate fields from parameters of the same name or to call another constructor. super refers to the parent class and is used to call the parent constructor or parent methods. In the example, super(name) initialises the inherited field and this.roll sets the child's own field.",
+    "solution": "class Person {\n  String name;\n  Person(String name) { this.name = name; }\n}\n\nclass Student extends Person {\n  int roll;\n  Student(String name, int roll) {\n    super(name);       // parent constructor\n    this.roll = roll;  // current object's field\n  }\n}",
+    "keyPoints": [
+      "this = current object",
+      "super = parent class",
+      "super(...) must be the first statement",
+      "this.field resolves name clashes"
+    ]
+  },
+  {
+    "id": 3,
+    "category": "OOPS",
+    "topic": "SOLID principles",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "Explain the Single Responsibility Principle with an example of a class that violates it and how you would fix it.",
+    "answer": "A class should have only one reason to change. An Invoice class that calculates totals, prints itself and saves to a database has three reasons to change. Split it into Invoice (data and calculation), InvoicePrinter and InvoiceRepository so each class does one job. This makes code easier to read, test and change.",
+    "keyPoints": [
+      "One class, one reason to change",
+      "Separate calculation, printing and saving",
+      "Easier testing and maintenance"
+    ]
+  },
+  {
+    "id": 4,
+    "category": "OOPS",
+    "topic": "Real-world modelling",
+    "difficulty": "Medium",
+    "type": "Scenario",
+    "question": "You are asked to design the classes for a simple online shopping application. Which classes would you create, how are they related, and which OOP concepts would you use?",
+    "answer": "Likely classes: Customer, Product, Cart, CartItem, Order and Payment. A Customer has a Cart and places Orders (association); a Cart contains many CartItems (composition); each CartItem refers to a Product. Payment can be an interface with CardPayment and UpiPayment (polymorphism). Fields stay private with getters and validation (encapsulation); Customer and Admin could extend a User class (inheritance).",
+    "keyPoints": [
+      "Nouns become classes",
+      "Has-a relationships: Cart has CartItems",
+      "Payment interface with several implementations",
+      "Encapsulation, inheritance, polymorphism applied"
+    ]
+  },
+  {
+    "id": 5,
+    "category": "OOPS",
+    "topic": "Constructors",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What does this program print, and why is the order like that?",
+    "code": "class A { A() { System.out.println(\"A\"); } }\nclass B extends A { B() { System.out.println(\"B\"); } }\nclass C extends B { C() { System.out.println(\"C\"); } }\n\npublic class Test {\n  public static void main(String[] args) {\n    new C();\n  }\n}",
+    "answer": "It prints A, B, C on separate lines. Every constructor implicitly starts with super(), so the parent constructors run first, from the top of the hierarchy down to the child.",
+    "keyPoints": [
+      "Output A, B, C",
+      "Implicit super() as the first statement",
+      "Parent is initialised before child"
+    ]
+  },
+  {
+    "id": 6,
+    "category": "OOPS",
+    "topic": "Constructors",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a Java class Student with private fields rollNo and name, a parameterised constructor, getters and a display() method. Create two objects in main and display them.",
+    "answer": "Look for private fields, a constructor that uses this to assign parameters, public getters, and objects created with new.",
+    "solution": "class Student {\n  private int rollNo;\n  private String name;\n\n  Student(int rollNo, String name) {\n    this.rollNo = rollNo;\n    this.name = name;\n  }\n\n  public int getRollNo() { return rollNo; }\n  public String getName() { return name; }\n\n  public void display() {\n    System.out.println(rollNo + \" - \" + name);\n  }\n\n  public static void main(String[] args) {\n    Student s1 = new Student(1, \"Asha\");\n    Student s2 = new Student(2, \"Ravi\");\n    s1.display();\n    s2.display();\n  }\n}",
+    "keyPoints": [
+      "Fields are private",
+      "Constructor uses this.field = parameter",
+      "Constructor has no return type",
+      "Objects created with new"
+    ]
+  },
+  {
+    "id": 7,
+    "category": "OOPS",
+    "topic": "Design patterns",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a Java class Config that follows the Singleton pattern, so only one instance can ever be created.",
+    "answer": "Check for a private constructor, a private static instance field and a public static getInstance() that creates the object only once. A strong answer notes that this simple version is not thread-safe and mentions synchronized or eager initialisation.",
+    "solution": "class Config {\n  private static Config instance;\n\n  private Config() { }\n\n  public static synchronized Config getInstance() {\n    if (instance == null) {\n      instance = new Config();\n    }\n    return instance;\n  }\n}",
+    "keyPoints": [
+      "Private constructor",
+      "Static instance field",
+      "getInstance() creates it once",
+      "Thread safety (synchronized or eager init)"
+    ]
+  },
+  {
+    "id": 8,
+    "category": "Java",
+    "topic": "Java basics",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What is the difference between JDK, JRE and JVM? Why is Java called platform independent?",
+    "answer": "The JVM runs bytecode. The JRE is the JVM plus the standard libraries needed to run programs. The JDK is the JRE plus development tools such as the compiler (javac). Java source is compiled to platform-neutral bytecode (.class files), and each operating system has its own JVM that executes the same bytecode, so the program is write once, run anywhere.",
+    "keyPoints": [
+      "JVM runs bytecode",
+      "JRE = JVM + libraries",
+      "JDK = JRE + compiler and tools",
+      "Bytecode is portable, JVM is platform specific"
+    ]
+  },
+  {
+    "id": 9,
+    "category": "Java",
+    "topic": "Collections",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "Compare ArrayList and LinkedList. Which would you use for frequent random access and which for frequent insertion in the middle?",
+    "answer": "ArrayList is backed by a dynamic array: get(index) is O(1) but inserting or removing in the middle shifts elements, which is O(n). LinkedList is a doubly linked list: inserting or removing at a known node is cheap but get(index) must walk the list, which is O(n), and each node uses extra memory. In practice ArrayList is the default choice; use LinkedList mainly for queue/deque style operations.",
+    "keyPoints": [
+      "ArrayList: array, fast random access",
+      "LinkedList: nodes, fast insert and remove at ends",
+      "Time complexity of get and insert",
+      "ArrayList is the usual default"
+    ]
+  },
+  {
+    "id": 10,
+    "category": "Java",
+    "topic": "Multithreading",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "What are the two ways to create a thread in Java? What is the difference between calling start() and run()?",
+    "answer": "You can extend the Thread class and override run(), or implement Runnable and pass it to a Thread. Implementing Runnable is preferred because the class can still extend another class. start() creates a new thread and then calls run() on it; calling run() directly just executes the method in the current thread like a normal method call.",
+    "keyPoints": [
+      "Extend Thread or implement Runnable",
+      "Runnable is preferred",
+      "start() creates a new thread",
+      "run() directly runs in the same thread"
+    ]
+  },
+  {
+    "id": 11,
+    "category": "Java",
+    "topic": "Exception handling",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What is the output of this program?",
+    "code": "public class Test {\n  static int f() {\n    try {\n      return 1;\n    } finally {\n      System.out.println(\"finally\");\n    }\n  }\n\n  public static void main(String[] args) {\n    System.out.println(f());\n  }\n}",
+    "answer": "It prints finally, then 1. The finally block runs before the method actually returns, even though return 1 was already reached in try.",
+    "keyPoints": [
+      "finally runs before the return completes",
+      "Output order: finally, then 1",
+      "finally runs even after return"
+    ]
+  },
+  {
+    "id": 12,
+    "category": "Java",
+    "topic": "Exception handling",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What does this code print? Why must a catch block for a subclass exception come before the catch for its superclass?",
+    "code": "try {\n  int[] a = new int[2];\n  a[5] = 10;\n} catch (ArrayIndexOutOfBoundsException e) {\n  System.out.println(\"index problem\");\n} catch (Exception e) {\n  System.out.println(\"general problem\");\n}",
+    "answer": "It prints index problem. The first matching catch block runs and the rest are skipped. If catch (Exception e) were first, the specific catch could never run, and Java reports a compile error for this unreachable code.",
+    "keyPoints": [
+      "First matching catch runs",
+      "Specific exceptions before general ones",
+      "Wrong order gives a compile error"
+    ]
+  },
+  {
+    "id": 13,
+    "category": "Java",
+    "topic": "Basic programs",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write a method isPrime(int n). Can you make it run faster than checking every number up to n?",
+    "answer": "Numbers below 2 are not prime. It is enough to check divisors up to the square root of n, because any larger factor pairs with a smaller one.",
+    "solution": "static boolean isPrime(int n) {\n  if (n < 2) return false;\n  for (int i = 2; i * i <= n; i++) {\n    if (n % i == 0) return false;\n  }\n  return true;\n}",
+    "keyPoints": [
+      "Handles n < 2",
+      "Loop up to the square root",
+      "Returns false on the first divisor"
+    ]
+  },
+  {
+    "id": 14,
+    "category": "Java",
+    "topic": "Exception handling",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Create a custom checked exception InvalidAgeException. Write a method validate(int age) that throws it when age is below 18, and handle it in main.",
+    "answer": "The exception class should extend Exception. The method must declare throws and use throw new. main needs a try/catch.",
+    "solution": "class InvalidAgeException extends Exception {\n  InvalidAgeException(String message) { super(message); }\n}\n\npublic class Main {\n  static void validate(int age) throws InvalidAgeException {\n    if (age < 18) {\n      throw new InvalidAgeException(\"Age must be 18 or above\");\n    }\n    System.out.println(\"Eligible\");\n  }\n\n  public static void main(String[] args) {\n    try {\n      validate(15);\n    } catch (InvalidAgeException e) {\n      System.out.println(\"Error: \" + e.getMessage());\n    }\n  }\n}",
+    "keyPoints": [
+      "extends Exception",
+      "throws in the signature",
+      "throw new InvalidAgeException(...)",
+      "try/catch in main"
+    ]
+  },
+  {
+    "id": 15,
+    "category": "JavaScript",
+    "topic": "Variables",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "Explain the differences between var, let and const in terms of scope, hoisting and reassignment.",
+    "answer": "var is function-scoped, hoisted and initialised to undefined, and can be redeclared. let and const are block-scoped and are in the temporal dead zone until their declaration, so using them earlier throws a ReferenceError. let can be reassigned; const cannot be reassigned and must be initialised. Modern code uses const by default and let when needed.",
+    "keyPoints": [
+      "var: function scope; let/const: block scope",
+      "Temporal dead zone",
+      "const cannot be reassigned",
+      "Prefer const, then let"
+    ]
+  },
+  {
+    "id": 16,
+    "category": "JavaScript",
+    "topic": "Closures",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "What is a closure? Give a small example and one practical use.",
+    "answer": "A closure is a function that remembers the variables of the scope where it was created, even after that outer function has finished. In the example, the returned function keeps access to count. Practical uses are private variables (data hiding), counters, memoisation and callbacks that remember context.",
+    "solution": "function makeCounter() {\n  let count = 0;\n  return function () {\n    count++;\n    return count;\n  };\n}\nconst next = makeCounter();\nconsole.log(next()); // 1\nconsole.log(next()); // 2",
+    "keyPoints": [
+      "Inner function keeps outer variables",
+      "Works after the outer function returns",
+      "Used for private state",
+      "Based on lexical scope"
+    ]
+  },
+  {
+    "id": 17,
+    "category": "JavaScript",
+    "topic": "Hoisting",
+    "difficulty": "Easy",
+    "type": "Output",
+    "question": "What does this code print? Explain each line.",
+    "code": "console.log(a);\nvar a = 1;\nconsole.log(a);\nconsole.log(b);\nlet b = 2;",
+    "answer": "It prints undefined, then 1, then throws ReferenceError. var a is hoisted and initialised with undefined, so the first log shows undefined. After the assignment it shows 1. let b is hoisted but stays in the temporal dead zone until its declaration, so reading it earlier throws an error.",
+    "keyPoints": [
+      "var is hoisted as undefined",
+      "let is in the temporal dead zone",
+      "ReferenceError on b"
+    ]
+  },
+  {
+    "id": 18,
+    "category": "JavaScript",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What value does result hold? Walk through each step of the chain.",
+    "code": "const nums = [1, 2, 3, 4, 5];\nconst result = nums\n  .filter(n => n % 2)\n  .map(n => n * n)\n  .reduce((a, b) => a + b, 0);\nconsole.log(result);",
+    "answer": "result is 35. filter keeps the odd numbers [1, 3, 5]; map squares them to [1, 9, 25]; reduce adds them: 1 + 9 + 25 = 35.",
+    "keyPoints": [
+      "n % 2 is truthy for odd numbers",
+      "filter, then map, then reduce",
+      "Result 35"
+    ]
+  },
+  {
+    "id": 19,
+    "category": "JavaScript",
+    "topic": "Functions",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write a JavaScript function isPalindrome(str) that ignores case, spaces and punctuation, so \"A man, a plan, a canal: Panama\" returns true.",
+    "answer": "Clean the string (lowercase, remove non-alphanumeric characters) and compare it with its reverse.",
+    "solution": "function isPalindrome(str) {\n  const clean = str.toLowerCase().replace(/[^a-z0-9]/g, '');\n  return clean === clean.split('').reverse().join('');\n}\n\nconsole.log(isPalindrome('A man, a plan, a canal: Panama')); // true",
+    "keyPoints": [
+      "Lowercases the text",
+      "Removes non-alphanumeric characters",
+      "Compares with the reversed string",
+      "Returns a boolean"
+    ]
+  },
+  {
+    "id": 20,
+    "category": "JavaScript",
+    "topic": "Functions",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write two JavaScript functions: reverseString(str) that returns the string reversed, and countVowels(str) that returns the number of vowels (case-insensitive).",
+    "answer": "reverseString can use split, reverse and join (or a loop). countVowels needs a loop and a vowel check, with case handled.",
+    "solution": "function reverseString(str) {\n  return str.split('').reverse().join('');\n}\n\nfunction countVowels(str) {\n  let count = 0;\n  for (const ch of str.toLowerCase()) {\n    if ('aeiou'.includes(ch)) count++;\n  }\n  return count;\n}\n\nconsole.log(reverseString('hello'));   // olleh\nconsole.log(countVowels('Education')); // 5",
+    "keyPoints": [
+      "split, reverse, join chain (or loop)",
+      "Handles upper and lower case",
+      "Returns a value instead of only printing",
+      "Correct loop and counter"
+    ]
+  },
+  {
+    "id": 21,
+    "category": "JavaScript",
+    "topic": "Closures",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write createCounter() that returns an object with increment(), decrement() and value() methods, keeping the count private.",
+    "answer": "The count variable must live inside createCounter and be accessible only through the returned methods (a closure).",
+    "solution": "function createCounter() {\n  let count = 0;\n  return {\n    increment() { count++; },\n    decrement() { count--; },\n    value() { return count; }\n  };\n}\n\nconst c = createCounter();\nc.increment();\nc.increment();\nc.decrement();\nconsole.log(c.value()); // 1",
+    "keyPoints": [
+      "count declared inside the outer function",
+      "Returned methods share the variable",
+      "No direct access to count from outside"
+    ]
+  },
+  {
+    "id": 22,
+    "category": "JavaScript",
+    "topic": "Debugging",
+    "difficulty": "Medium",
+    "type": "Debug",
+    "question": "getTotal(2, 3) returns undefined instead of 5. Why? Fix it.",
+    "code": "function getTotal(a, b) {\n  return\n    a + b;\n}",
+    "answer": "JavaScript's automatic semicolon insertion adds a semicolon after return when it is followed by a line break, so the function returns undefined and a + b is never reached. Put the expression on the same line as return.",
+    "solution": "function getTotal(a, b) {\n  return a + b;\n}",
+    "keyPoints": [
+      "Automatic semicolon insertion",
+      "return followed by a newline returns undefined",
+      "Keep the value on the same line"
+    ]
+  },
+  {
+    "id": 23,
+    "category": "DBMS",
+    "topic": "SQL basics",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What are DDL, DML, DCL and TCL? Differentiate DELETE, TRUNCATE and DROP.",
+    "answer": "DDL defines structure (CREATE, ALTER, DROP); DML manipulates data (INSERT, UPDATE, DELETE, SELECT); DCL controls access (GRANT, REVOKE); TCL manages transactions (COMMIT, ROLLBACK, SAVEPOINT). DELETE removes selected rows (with WHERE) and can be rolled back; TRUNCATE removes all rows quickly and keeps the table structure; DROP removes the whole table including its structure.",
+    "keyPoints": [
+      "DDL, DML, DCL, TCL with commands",
+      "DELETE: rows, supports WHERE",
+      "TRUNCATE: all rows, structure kept",
+      "DROP: table removed completely"
+    ]
+  },
+  {
+    "id": 24,
+    "category": "DBMS",
+    "topic": "Transactions",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "Explain the ACID properties using a bank transfer of 500 rupees from account A to account B.",
+    "answer": "Atomicity: both the debit from A and credit to B happen, or neither does. Consistency: the database moves from one valid state to another, e.g. the total money stays the same and constraints hold. Isolation: concurrent transactions do not see each other's partial results. Durability: once committed, the transfer survives a crash.",
+    "keyPoints": [
+      "Atomicity: all or nothing",
+      "Consistency: valid state to valid state",
+      "Isolation: concurrent transactions do not interfere",
+      "Durability: committed data survives failures"
+    ]
+  },
+  {
+    "id": 25,
+    "category": "DBMS",
+    "topic": "Normalization",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "Table StudentCourse(student_id, student_name, course_id, course_name, instructor) stores one row per enrolment. Describe the insertion, update and deletion anomalies it causes.",
+    "answer": "Insertion: a new course cannot be stored until some student enrols. Update: changing an instructor's name requires editing every enrolment row, and missing one causes inconsistency. Deletion: removing the last student of a course also erases the course details. Splitting into Student, Course and Enrollment tables (normalisation) removes these anomalies.",
+    "keyPoints": [
+      "Insertion anomaly",
+      "Update anomaly",
+      "Deletion anomaly",
+      "Fix by splitting into separate tables"
+    ]
+  },
+  {
+    "id": 26,
+    "category": "DBMS",
+    "topic": "Joins",
+    "difficulty": "Easy",
+    "type": "Output",
+    "question": "Which rows do the INNER JOIN and the LEFT JOIN return? What is Meena's mark in each result?",
+    "code": "Student            Marks\nid | name         student_id | marks\n1  | Ravi         1          | 80\n2  | Asha         2          | 90\n3  | Meena\n\n-- Query 1\nSELECT s.name, m.marks\nFROM Student s INNER JOIN Marks m ON s.id = m.student_id;\n\n-- Query 2\nSELECT s.name, m.marks\nFROM Student s LEFT JOIN Marks m ON s.id = m.student_id;",
+    "answer": "INNER JOIN returns only matching rows: Ravi 80 and Asha 90; Meena does not appear. LEFT JOIN keeps all students, so Meena appears with marks NULL.",
+    "keyPoints": [
+      "INNER JOIN: matching rows only",
+      "LEFT JOIN: all rows from the left table",
+      "Unmatched columns are NULL"
+    ]
+  },
+  {
+    "id": 27,
+    "category": "DBMS",
+    "topic": "SQL basics",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write a CREATE TABLE statement for Student(student_id, name, email, age, dept_id). Student id is the primary key, name cannot be empty, email must be unique, age must be at least 17 and dept_id refers to a Department table.",
+    "answer": "Check for PRIMARY KEY, NOT NULL, UNIQUE, CHECK and a FOREIGN KEY with REFERENCES.",
+    "solution": "CREATE TABLE Student (\n  student_id INT PRIMARY KEY,\n  name VARCHAR(50) NOT NULL,\n  email VARCHAR(100) UNIQUE,\n  age INT CHECK (age >= 17),\n  dept_id INT,\n  FOREIGN KEY (dept_id) REFERENCES Department(dept_id)\n);",
+    "keyPoints": [
+      "PRIMARY KEY",
+      "NOT NULL and UNIQUE",
+      "CHECK constraint",
+      "FOREIGN KEY ... REFERENCES"
+    ]
+  },
+  {
+    "id": 28,
+    "category": "DBMS",
+    "topic": "SQL queries",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Table Employee(id, name, dept, salary). Write a query to find the second highest salary.",
+    "answer": "Either a subquery that takes the maximum below the overall maximum, or ORDER BY with LIMIT/OFFSET. Check the student handles duplicate salaries sensibly.",
+    "solution": "SELECT MAX(salary) AS second_highest\nFROM Employee\nWHERE salary < (SELECT MAX(salary) FROM Employee);\n\n-- Alternative (MySQL / PostgreSQL):\nSELECT DISTINCT salary\nFROM Employee\nORDER BY salary DESC\nLIMIT 1 OFFSET 1;",
+    "keyPoints": [
+      "Subquery for MAX, or ORDER BY DESC with OFFSET",
+      "Uses DISTINCT or < MAX to skip duplicates",
+      "Correct syntax"
+    ]
+  },
+  {
+    "id": 29,
+    "category": "DBMS",
+    "topic": "Joins",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Tables: Student(student_id, name), Course(course_id, title), Enrollment(student_id, course_id). Write queries to (a) list each student's name with the titles of their courses, and (b) find students who are not enrolled in any course.",
+    "answer": "(a) needs a join across all three tables. (b) needs a LEFT JOIN with a check for NULL on the enrolment side (or NOT IN / NOT EXISTS).",
+    "solution": "-- (a)\nSELECT s.name, c.title\nFROM Student s\nJOIN Enrollment e ON s.student_id = e.student_id\nJOIN Course c ON e.course_id = c.course_id;\n\n-- (b)\nSELECT s.name\nFROM Student s\nLEFT JOIN Enrollment e ON s.student_id = e.student_id\nWHERE e.student_id IS NULL;",
+    "keyPoints": [
+      "Two joins through the junction table",
+      "Correct ON conditions",
+      "LEFT JOIN plus IS NULL for missing rows"
+    ]
+  },
+  {
+    "id": 30,
+    "category": "DBMS",
+    "topic": "SQL queries",
+    "difficulty": "Medium",
+    "type": "Debug",
+    "question": "This query fails. Find the two mistakes and correct it. Goal: show departments having more than 2 employees, with the employee count.",
+    "code": "SELECT dept, name, COUNT(*)\nFROM Employee\nWHERE COUNT(*) > 2\nGROUP BY dept;",
+    "answer": "First, name is neither grouped nor aggregated, so it cannot be selected (remove it or add it to GROUP BY). Second, aggregate functions cannot be used in WHERE; filter groups with HAVING after GROUP BY.",
+    "solution": "SELECT dept, COUNT(*) AS total\nFROM Employee\nGROUP BY dept\nHAVING COUNT(*) > 2;",
+    "keyPoints": [
+      "Non-grouped column in SELECT",
+      "Aggregate not allowed in WHERE",
+      "Use HAVING after GROUP BY"
+    ]
+  },
+  {
+    "id": 31,
+    "category": "HTML & CSS",
+    "topic": "CSS layout",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What is the difference between CSS Flexbox and CSS Grid? When would you use each?",
+    "answer": "Flexbox lays items out in one dimension (a row or a column) and is good for navigation bars, toolbars and centring. Grid is two-dimensional (rows and columns together) and is good for whole page layouts and card galleries. They can be combined.",
+    "keyPoints": [
+      "Flexbox: one dimension",
+      "Grid: two dimensions",
+      "Flexbox for components, Grid for page layout"
+    ]
+  },
+  {
+    "id": 32,
+    "category": "HTML & CSS",
+    "topic": "CSS layout",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write CSS to centre a box both horizontally and vertically inside the full browser window using Flexbox.",
+    "answer": "Make the parent a flex container, centre on both axes and give it the full viewport height.",
+    "solution": ".container {\n  display: flex;\n  justify-content: center;  /* horizontal */\n  align-items: center;      /* vertical */\n  min-height: 100vh;\n}\n\n.box {\n  width: 200px;\n  height: 100px;\n}",
+    "keyPoints": [
+      "display: flex on the parent",
+      "justify-content and align-items: center",
+      "Parent has a height such as 100vh"
+    ]
+  }
+]

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Technical Interview Question Bank</title>
-  <meta name="description" content="Viva and interview question bank for BTech Computer Science students: OOPS, JavaScript and HTML.">
+  <meta name="description" content="Viva and interview question bank for BTech Computer Science students: OOPS, Java, JavaScript and DBMS, in three different question sets.">
 
   <!-- Apply the saved theme before first paint to avoid a flash -->
   <script>
@@ -34,10 +34,11 @@
       <div class="searchbox">
         <label for="search-input" class="sr-only">Search questions</label>
         <span class="searchbox-icon" aria-hidden="true">🔍</span>
-        <input id="search-input" type="search" placeholder="Search questions..." autocomplete="off">
+        <input id="search-input" type="search" placeholder="Search questions in the selected set..." autocomplete="off">
       </div>
 
       <div class="topbar-actions">
+        <button class="btn btn-ghost set-pill" id="set-pill" data-action="home" aria-label="Current question set, open dashboard to change"></button>
         <button class="btn btn-ghost" data-action="review-list" aria-label="Open review list">
           ⭐ <span class="hide-sm">Review</span> <span id="review-count" class="count-pill">0</span>
         </button>

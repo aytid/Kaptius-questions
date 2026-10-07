@@ -1,0 +1,478 @@
+[
+  {
+    "id": 201,
+    "category": "OOPS",
+    "topic": "Polymorphism",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "Differentiate compile-time and runtime polymorphism. Give one example of each.",
+    "answer": "Compile-time polymorphism is method overloading: the compiler picks the method from the name and argument types, e.g. add(int,int) and add(double,double). Runtime polymorphism is method overriding: a parent reference holding a child object calls the child's version, decided by the JVM at runtime from the actual object (dynamic dispatch).",
+    "keyPoints": [
+      "Overloading = compile time",
+      "Overriding = runtime",
+      "Runtime decision uses the actual object type",
+      "Parent reference, child object"
+    ]
+  },
+  {
+    "id": 202,
+    "category": "OOPS",
+    "topic": "Abstraction",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "Compare an abstract class with an interface. When would you choose each?",
+    "answer": "An abstract class can have fields, constructors and both abstract and concrete methods, and a class can extend only one. An interface is a contract of methods (with optional default methods), has no instance state, and a class can implement many. Choose an abstract class when related classes share code and state; choose an interface for a capability that unrelated classes can offer.",
+    "keyPoints": [
+      "Abstract class: state and shared code",
+      "Interface: contract, many allowed",
+      "Single vs multiple inheritance",
+      "Choose by relationship: shared base vs capability"
+    ]
+  },
+  {
+    "id": 203,
+    "category": "OOPS",
+    "topic": "OOP concepts",
+    "difficulty": "Easy",
+    "type": "Scenario",
+    "question": "Name the OOP concept in each situation: (a) a balance field that can only be changed through deposit(); (b) a Shape reference calling draw() that behaves differently for Circle and Square; (c) Dog and Cat reusing eat() written in Animal; (d) a driver using the steering wheel without knowing how the engine works.",
+    "answer": "(a) Encapsulation. (b) Polymorphism (runtime, through overriding). (c) Inheritance. (d) Abstraction.",
+    "keyPoints": [
+      "(a) Encapsulation",
+      "(b) Polymorphism",
+      "(c) Inheritance",
+      "(d) Abstraction"
+    ]
+  },
+  {
+    "id": 204,
+    "category": "OOPS",
+    "topic": "Polymorphism",
+    "difficulty": "Easy",
+    "type": "Output",
+    "question": "What is the output of this program? Which OOP concept does it demonstrate?",
+    "code": "class Animal {\n  void sound() { System.out.println(\"Animal sound\"); }\n}\nclass Dog extends Animal {\n  void sound() { System.out.println(\"Bark\"); }\n}\npublic class Test {\n  public static void main(String[] args) {\n    Animal x = new Dog();\n    x.sound();\n  }\n}",
+    "answer": "Output: Bark. The reference type is Animal but the object is a Dog, so the JVM calls Dog's overridden sound() at runtime. This is runtime polymorphism (dynamic method dispatch).",
+    "keyPoints": [
+      "Output is Bark",
+      "Method chosen by the object type, not the reference type",
+      "Runtime polymorphism / overriding"
+    ]
+  },
+  {
+    "id": 205,
+    "category": "OOPS",
+    "topic": "Interfaces",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Create an interface Vehicle with a method start(). Implement it in Car and Bike, then call start() for both through an array of Vehicle.",
+    "answer": "Look for implements, public methods in the implementing classes (interface methods are public), and a Vehicle[] or List<Vehicle> loop.",
+    "solution": "interface Vehicle {\n  void start();\n}\n\nclass Car implements Vehicle {\n  public void start() { System.out.println(\"Car starts with a key\"); }\n}\n\nclass Bike implements Vehicle {\n  public void start() { System.out.println(\"Bike starts with a kick\"); }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Vehicle[] list = { new Car(), new Bike() };\n    for (Vehicle v : list) v.start();\n  }\n}",
+    "keyPoints": [
+      "implements keyword",
+      "Methods declared public in the classes",
+      "Interface-typed array",
+      "Runtime polymorphism"
+    ]
+  },
+  {
+    "id": 206,
+    "category": "OOPS",
+    "topic": "Encapsulation",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a BankAccount class with a private balance, deposit(amount), withdraw(amount) and getBalance(). Reject invalid deposits and withdrawals that exceed the balance.",
+    "answer": "Check the field is private, there is no setter for balance, and both methods validate their input before changing the state.",
+    "solution": "class BankAccount {\n  private double balance;\n\n  public void deposit(double amount) {\n    if (amount <= 0) {\n      throw new IllegalArgumentException(\"Amount must be positive\");\n    }\n    balance += amount;\n  }\n\n  public boolean withdraw(double amount) {\n    if (amount <= 0 || amount > balance) return false;\n    balance -= amount;\n    return true;\n  }\n\n  public double getBalance() { return balance; }\n}",
+    "keyPoints": [
+      "balance is private",
+      "No setBalance()",
+      "Validation in deposit and withdraw",
+      "Read access via getBalance()"
+    ]
+  },
+  {
+    "id": 207,
+    "category": "OOPS",
+    "topic": "Method overriding",
+    "difficulty": "Medium",
+    "type": "Debug",
+    "question": "Why does this code fail to compile? How do you fix it?",
+    "code": "class A {\n  public void show() { System.out.println(\"A\"); }\n}\nclass B extends A {\n  void show() { System.out.println(\"B\"); }\n}",
+    "answer": "An overriding method cannot have weaker access than the method it overrides. A.show() is public, but B.show() has default (package) access, which is more restrictive, so the compiler reports an error. Fix by declaring B.show() as public.",
+    "solution": "class B extends A {\n  @Override\n  public void show() { System.out.println(\"B\"); }\n}",
+    "keyPoints": [
+      "Overriding cannot reduce visibility",
+      "Make the override public",
+      "@Override helps catch mistakes"
+    ]
+  },
+  {
+    "id": 208,
+    "category": "Java",
+    "topic": "static and final",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What do the keywords static and final mean when applied to a variable, method and class? Why is main() static?",
+    "answer": "A static member belongs to the class, not to any object, so it is shared by all instances. final on a variable makes it a constant that cannot be reassigned, on a method prevents overriding, and on a class prevents inheritance (e.g. String). main() is static so the JVM can call it without first creating an object of the class.",
+    "keyPoints": [
+      "static = belongs to the class, shared",
+      "final variable: no reassignment",
+      "final method: no overriding; final class: no inheritance",
+      "main is static so the JVM needs no object"
+    ]
+  },
+  {
+    "id": 209,
+    "category": "Java",
+    "topic": "Collections",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "How does a HashMap store key-value pairs? What roles do hashCode() and equals() play?",
+    "answer": "HashMap calls hashCode() on the key to choose a bucket in an internal array. If several keys land in the same bucket, equals() is used to find the exact key. Two equal objects must return the same hashCode, so if you override equals() you must override hashCode() too, otherwise lookups fail. Lookups are O(1) on average.",
+    "keyPoints": [
+      "hashCode picks the bucket",
+      "equals finds the exact key",
+      "Equal objects must have equal hash codes",
+      "Average O(1) get and put"
+    ]
+  },
+  {
+    "id": 210,
+    "category": "Java",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "type": "Output",
+    "question": "What does this code print? Explain the difference between == and equals() for Strings.",
+    "code": "String s1 = \"hello\";\nString s2 = \"hello\";\nString s3 = new String(\"hello\");\n\nSystem.out.println(s1 == s2);\nSystem.out.println(s1 == s3);\nSystem.out.println(s1.equals(s3));",
+    "answer": "Output: true, false, true. s1 and s2 are literals, so they point to the same object in the string pool. new String creates a separate object on the heap, so s1 == s3 is false. == compares references; equals() compares the text.",
+    "keyPoints": [
+      "== compares references",
+      "equals() compares content",
+      "String pool shares literals",
+      "new String creates a new object"
+    ]
+  },
+  {
+    "id": 211,
+    "category": "Java",
+    "topic": "static and final",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What does this program print, and why?",
+    "code": "class Counter {\n  static int count = 0;\n  int id;\n  Counter() {\n    count++;\n    id = count;\n  }\n}\n\npublic class Test {\n  public static void main(String[] args) {\n    new Counter();\n    new Counter();\n    Counter c = new Counter();\n    System.out.println(c.id + \" \" + Counter.count);\n  }\n}",
+    "answer": "It prints 3 3. count is static, so there is one shared copy that increases each time a Counter is created. id is an instance variable, and the third object copied the value 3 when it was created.",
+    "keyPoints": [
+      "static variable is shared by all objects",
+      "Instance variable is per object",
+      "Output 3 3"
+    ]
+  },
+  {
+    "id": 212,
+    "category": "Java",
+    "topic": "Basic programs",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write a Java method that prints the first n numbers of the Fibonacci series.",
+    "answer": "Keep two variables for the previous numbers and update them each iteration. For n = 7 the output is 0 1 1 2 3 5 8.",
+    "solution": "static void fibonacci(int n) {\n  int a = 0, b = 1;\n  for (int i = 0; i < n; i++) {\n    System.out.print(a + \" \");\n    int next = a + b;\n    a = b;\n    b = next;\n  }\n}",
+    "keyPoints": [
+      "Starts with 0 and 1",
+      "Correct update of both variables",
+      "Prints exactly n numbers"
+    ]
+  },
+  {
+    "id": 213,
+    "category": "Java",
+    "topic": "Collections",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a method that takes a String and returns how many times each character occurs, using a HashMap.",
+    "answer": "Loop over the characters and update the count in a Map<Character, Integer>. getOrDefault (or containsKey) avoids null problems.",
+    "solution": "static Map<Character, Integer> frequency(String s) {\n  Map<Character, Integer> map = new HashMap<>();\n  for (char c : s.toCharArray()) {\n    map.put(c, map.getOrDefault(c, 0) + 1);\n  }\n  return map;\n}",
+    "keyPoints": [
+      "Map<Character, Integer>",
+      "toCharArray() loop",
+      "getOrDefault or containsKey",
+      "Returns the map"
+    ]
+  },
+  {
+    "id": 214,
+    "category": "Java",
+    "topic": "Collections",
+    "difficulty": "Medium",
+    "type": "Debug",
+    "question": "This code throws an exception at runtime. Which one, why, and how do you fix it?",
+    "code": "List<Integer> list = new ArrayList<>(List.of(1, 2, 3, 4));\nfor (Integer n : list) {\n  if (n % 2 == 0) {\n    list.remove(n);\n  }\n}",
+    "answer": "It throws ConcurrentModificationException. The for-each loop uses an iterator, and removing from the list directly changes it behind the iterator's back. Fix by using removeIf, or an explicit Iterator and iterator.remove().",
+    "solution": "list.removeIf(n -> n % 2 == 0);\n\n// or\nIterator<Integer> it = list.iterator();\nwhile (it.hasNext()) {\n  if (it.next() % 2 == 0) it.remove();\n}",
+    "keyPoints": [
+      "ConcurrentModificationException",
+      "Do not modify a list while iterating",
+      "Use removeIf or Iterator.remove()"
+    ]
+  },
+  {
+    "id": 215,
+    "category": "JavaScript",
+    "topic": "Arrow functions",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "How do arrow functions differ from regular functions in terms of this, the arguments object and use with new?",
+    "answer": "Arrow functions have no this of their own; they use this from the surrounding scope. They have no arguments object (use rest parameters instead) and cannot be used as constructors with new. They also give a shorter syntax with an implicit return for single expressions.",
+    "keyPoints": [
+      "Lexical this",
+      "No arguments object",
+      "Cannot be used with new",
+      "Short syntax"
+    ]
+  },
+  {
+    "id": 216,
+    "category": "JavaScript",
+    "topic": "Events",
+    "difficulty": "Medium",
+    "type": "Scenario",
+    "question": "A page has a list with 100 items (more can be added later), and clicking any item must highlight it. How would you attach the click handling efficiently?",
+    "answer": "Use event delegation: add one click listener to the parent list and use event.target (often with closest('li')) to find which item was clicked. This relies on event bubbling, uses less memory than 100 listeners and automatically works for items added later.",
+    "solution": "const list = document.querySelector('#list');\nlist.addEventListener('click', (e) => {\n  const item = e.target.closest('li');\n  if (item) item.classList.toggle('active');\n});",
+    "keyPoints": [
+      "One listener on the parent",
+      "Uses event bubbling and event.target",
+      "Works for dynamically added items",
+      "Fewer listeners, less memory"
+    ]
+  },
+  {
+    "id": 217,
+    "category": "JavaScript",
+    "topic": "Event loop",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "Predict the output order and explain why.",
+    "code": "console.log('A');\nsetTimeout(() => console.log('B'), 0);\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');",
+    "answer": "Output: A, D, C, B. Synchronous code runs first (A, D). The promise callback is a microtask and runs as soon as the call stack is empty (C). The setTimeout callback is a macrotask and runs on a later turn of the event loop (B), even with a 0 ms delay.",
+    "keyPoints": [
+      "Synchronous code first",
+      "Microtasks (promises) before macrotasks (timers)",
+      "0 ms does not mean immediate"
+    ]
+  },
+  {
+    "id": 218,
+    "category": "JavaScript",
+    "topic": "Destructuring",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What does this code print?",
+    "code": "const [a, , b = 10, ...rest] = [1, 2, undefined, 4, 5];\nconsole.log(a, b, rest);",
+    "answer": "It prints 1 10 [4, 5]. a takes the first value; the empty slot skips 2; b gets the default 10 because the value is undefined; rest collects the remaining items into an array.",
+    "keyPoints": [
+      "Empty slot skips an item",
+      "Default applies for undefined",
+      "Rest collects the remaining items"
+    ]
+  },
+  {
+    "id": 219,
+    "category": "JavaScript",
+    "topic": "DOM",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write HTML and JavaScript for a button that increases a click counter shown in a paragraph every time it is clicked.",
+    "answer": "Select both elements, keep the counter in a variable, attach a click listener and update textContent inside it.",
+    "solution": "<button id=\"btn\">Click me</button>\n<p id=\"out\">Clicks: 0</p>\n\n<script>\n  let clicks = 0;\n  const btn = document.getElementById('btn');\n  const out = document.getElementById('out');\n\n  btn.addEventListener('click', () => {\n    clicks++;\n    out.textContent = 'Clicks: ' + clicks;\n  });\n</script>",
+    "keyPoints": [
+      "Selects elements by id or querySelector",
+      "addEventListener('click', ...)",
+      "Updates textContent",
+      "Counter variable outside the handler"
+    ]
+  },
+  {
+    "id": 220,
+    "category": "JavaScript",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a function that removes duplicate values from an array. Show one solution using Set and one without it.",
+    "answer": "Set stores unique values, so spreading a Set gives a deduplicated array. Without Set, build a new array and add an item only if it is not already included.",
+    "solution": "const unique = arr => [...new Set(arr)];\n\nfunction uniqueLoop(arr) {\n  const result = [];\n  for (const x of arr) {\n    if (!result.includes(x)) result.push(x);\n  }\n  return result;\n}\n\nconsole.log(unique([1, 2, 2, 3, 1])); // [1, 2, 3]",
+    "keyPoints": [
+      "new Set(arr) with spread",
+      "Loop with includes() as the alternative",
+      "Original array is not mutated"
+    ]
+  },
+  {
+    "id": 221,
+    "category": "JavaScript",
+    "topic": "Objects",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a function wordCount(sentence) that returns an object with the number of times each word appears, for example 'to be or not to be'.",
+    "answer": "Split the sentence into words and use an object as a counter, starting from 0 when a word is seen for the first time.",
+    "solution": "function wordCount(sentence) {\n  const counts = {};\n  for (const word of sentence.toLowerCase().split(' ')) {\n    counts[word] = (counts[word] || 0) + 1;\n  }\n  return counts;\n}\n\nconsole.log(wordCount('to be or not to be'));\n// { to: 2, be: 2, or: 1, not: 1 }",
+    "keyPoints": [
+      "split into words",
+      "Object as a counter",
+      "Initialises missing keys with 0 (|| 0)",
+      "Returns the object"
+    ]
+  },
+  {
+    "id": 222,
+    "category": "DBMS",
+    "topic": "Keys",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "Explain primary key, candidate key, super key and foreign key with an example table.",
+    "answer": "In Student(roll_no, email, name, dept_id): a super key is any set of columns that uniquely identifies a row (e.g. roll_no, or roll_no+name). A candidate key is a minimal super key (roll_no and email). The primary key is the candidate key chosen to identify rows; it cannot be NULL. A foreign key (dept_id) refers to the primary key of another table and links the tables.",
+    "keyPoints": [
+      "Super key: unique identifier set",
+      "Candidate key: minimal super key",
+      "Primary key: chosen candidate, not NULL",
+      "Foreign key links to another table"
+    ]
+  },
+  {
+    "id": 223,
+    "category": "DBMS",
+    "topic": "Normalization",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "What is normalization? Explain 1NF, 2NF and 3NF with a simple example.",
+    "answer": "Normalization organises tables to reduce redundancy and update anomalies. 1NF: every column holds a single atomic value and there are no repeating groups. 2NF: 1NF plus no partial dependency, so every non-key column depends on the whole primary key. 3NF: 2NF plus no transitive dependency, so non-key columns depend only on the key, not on other non-key columns (e.g. keep dept_name in a Department table rather than in Student).",
+    "keyPoints": [
+      "Reduces redundancy and anomalies",
+      "1NF: atomic values",
+      "2NF: no partial dependency",
+      "3NF: no transitive dependency"
+    ]
+  },
+  {
+    "id": 224,
+    "category": "DBMS",
+    "topic": "Indexes",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "What is a database index? State its advantages and disadvantages, and when you should avoid adding one.",
+    "answer": "An index is a separate data structure (often a B-tree) that lets the database find rows by a column without scanning the whole table, like a book's index. It speeds up searches, joins and sorting, but uses extra storage and slows INSERT, UPDATE and DELETE because the index must be maintained. Avoid indexing small tables, columns that are rarely searched, or columns with very few distinct values.",
+    "keyPoints": [
+      "Faster reads, avoids full table scan",
+      "Costs storage and slows writes",
+      "Usually a B-tree",
+      "Index columns used in WHERE and JOIN"
+    ]
+  },
+  {
+    "id": 225,
+    "category": "DBMS",
+    "topic": "Transactions",
+    "difficulty": "Medium",
+    "type": "Scenario",
+    "question": "Two users try to book the last seat on a bus at the same moment and both succeed. What went wrong, and how can the database prevent it?",
+    "answer": "Both transactions read that one seat was free and both wrote a booking, so one update overwrote the other (a lost update / lack of isolation). The database prevents it with locking (for example SELECT ... FOR UPDATE), a suitable isolation level such as SERIALIZABLE, or a UNIQUE constraint on the seat so the second insert fails.",
+    "keyPoints": [
+      "Concurrent read-then-write problem",
+      "Lost update / isolation issue",
+      "Locks or higher isolation level",
+      "UNIQUE constraint as a safety net"
+    ]
+  },
+  {
+    "id": 226,
+    "category": "DBMS",
+    "topic": "SQL queries",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "Table T has a marks column with the values 10, 20, NULL, 30. What do these queries return?",
+    "code": "SELECT COUNT(*), COUNT(marks), AVG(marks) FROM T;\n\nSELECT * FROM T WHERE marks = NULL;",
+    "answer": "The first query returns 4, 3 and 20. COUNT(*) counts all rows; COUNT(marks) and AVG ignore NULL values, so the average is (10 + 20 + 30) / 3 = 20. The second query returns no rows because comparing anything with NULL using = is never true; use IS NULL instead.",
+    "keyPoints": [
+      "COUNT(*) counts rows, COUNT(col) ignores NULL",
+      "Aggregates ignore NULL",
+      "= NULL never matches; use IS NULL"
+    ]
+  },
+  {
+    "id": 227,
+    "category": "DBMS",
+    "topic": "Joins",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Tables: Student(id, name, dept_id) and Department(dept_id, dept_name). Write a query that lists every student's name with their department name. Students without a department must still appear.",
+    "answer": "A LEFT JOIN from Student to Department keeps all students; the department name is NULL when there is no match. An INNER JOIN would drop those students.",
+    "solution": "SELECT s.name, d.dept_name\nFROM Student s\nLEFT JOIN Department d\n  ON s.dept_id = d.dept_id;",
+    "keyPoints": [
+      "LEFT JOIN, not INNER JOIN",
+      "Student on the left side",
+      "Correct ON condition",
+      "Unmatched rows show NULL"
+    ]
+  },
+  {
+    "id": 228,
+    "category": "DBMS",
+    "topic": "SQL queries",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Table Users(id, name, email). Write a query to find email addresses that appear more than once.",
+    "answer": "Group by email and keep groups with a count greater than 1 using HAVING.",
+    "solution": "SELECT email, COUNT(*) AS times\nFROM Users\nGROUP BY email\nHAVING COUNT(*) > 1;",
+    "keyPoints": [
+      "GROUP BY email",
+      "HAVING COUNT(*) > 1",
+      "Not WHERE for the count"
+    ]
+  },
+  {
+    "id": 229,
+    "category": "DBMS",
+    "topic": "Normalization",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "The table StudentCourse(sid, sname, course1, course2, phone1, phone2) is not in 1NF. Rewrite it as properly normalised tables.",
+    "answer": "Repeating columns (course1, course2, phone1, phone2) violate 1NF. Move each repeating group into its own table with one row per value, linked by sid.",
+    "solution": "Student(sid PK, sname)\nStudentPhone(sid FK, phone, PRIMARY KEY (sid, phone))\nEnrollment(sid FK, course, PRIMARY KEY (sid, course))\n\n-- Better: also create Course(course_id PK, title)\n-- and let Enrollment store course_id instead of course.",
+    "keyPoints": [
+      "Repeating groups removed",
+      "One value per cell",
+      "Separate tables linked by a foreign key",
+      "Suitable primary keys"
+    ]
+  },
+  {
+    "id": 230,
+    "category": "HTML & CSS",
+    "topic": "CSS basics",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "Explain the CSS box model. How do margin, border and padding differ?",
+    "answer": "Every element is a box made of content, then padding (space inside the border), then border, then margin (space outside the border). Padding pushes content away from the border; margin separates the element from its neighbours. With box-sizing: border-box, the width includes padding and border, which makes sizing easier.",
+    "keyPoints": [
+      "Content, padding, border, margin",
+      "Padding inside, margin outside",
+      "box-sizing: border-box"
+    ]
+  },
+  {
+    "id": 231,
+    "category": "HTML & CSS",
+    "topic": "Forms",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write the HTML for a sign-up form with name, email, password, a gender radio group and a submit button. Use labels and make the main fields required.",
+    "answer": "Check for label elements linked with for/id, correct input types, name attributes, the required attribute and radio buttons sharing one name.",
+    "solution": "<form action=\"/signup\" method=\"post\">\n  <label for=\"name\">Name</label>\n  <input id=\"name\" name=\"name\" type=\"text\" required>\n\n  <label for=\"email\">Email</label>\n  <input id=\"email\" name=\"email\" type=\"email\" required>\n\n  <label for=\"pwd\">Password</label>\n  <input id=\"pwd\" name=\"password\" type=\"password\" required>\n\n  <fieldset>\n    <legend>Gender</legend>\n    <label><input type=\"radio\" name=\"gender\" value=\"male\"> Male</label>\n    <label><input type=\"radio\" name=\"gender\" value=\"female\"> Female</label>\n  </fieldset>\n\n  <button type=\"submit\">Sign up</button>\n</form>",
+    "keyPoints": [
+      "label for/id",
+      "Correct input types",
+      "Radios share the same name",
+      "required and a submit button"
+    ]
+  }
+]

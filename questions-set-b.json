@@ -1,0 +1,478 @@
+[
+  {
+    "id": 101,
+    "category": "OOPS",
+    "topic": "Encapsulation",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What is encapsulation? How does a BankAccount class use it to protect the balance?",
+    "answer": "Encapsulation bundles data and the methods that work on it into one unit and restricts direct access to the data. In BankAccount the balance is private and can only change through deposit() and withdraw(), which validate the amount. Outside code therefore cannot set a negative balance or skip the checks.",
+    "keyPoints": [
+      "Data and methods in one class",
+      "Fields marked private",
+      "Access only through public methods",
+      "Validation keeps the object valid"
+    ]
+  },
+  {
+    "id": 102,
+    "category": "OOPS",
+    "topic": "Inheritance",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "What are the types of inheritance? Why does Java not support multiple inheritance of classes, and what is the diamond problem?",
+    "answer": "Common forms are single, multilevel, hierarchical, multiple and hybrid. If B and C both inherit from A and D inherits from both B and C, D could receive two conflicting copies of A's members: this is the diamond problem. Java avoids it by letting a class extend only one class, while allowing a class to implement many interfaces.",
+    "keyPoints": [
+      "Single, multilevel, hierarchical, multiple, hybrid",
+      "Diamond problem causes ambiguity",
+      "Java: one class, many interfaces"
+    ]
+  },
+  {
+    "id": 103,
+    "category": "OOPS",
+    "topic": "Immutability",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "What is an immutable class? How would you create one in Java, and why is String immutable?",
+    "answer": "An immutable object's state cannot change after construction. To build one: make the class final, make fields private and final, set them only in the constructor, provide no setters, and return new objects for changes. String is immutable for security, thread safety, caching of hash codes and the string pool. Immutable objects are safe to share between threads.",
+    "solution": "public final class Point {\n  private final int x;\n  private final int y;\n\n  public Point(int x, int y) { this.x = x; this.y = y; }\n\n  public int getX() { return x; }\n  public int getY() { return y; }\n\n  public Point withX(int newX) { return new Point(newX, y); }\n}",
+    "keyPoints": [
+      "final class, private final fields",
+      "No setters",
+      "Changes return new objects",
+      "Thread safe, safe as map keys"
+    ]
+  },
+  {
+    "id": 104,
+    "category": "OOPS",
+    "topic": "Composition vs inheritance",
+    "difficulty": "Medium",
+    "type": "Scenario",
+    "question": "A student writes class Car extends Engine so that a car can use the engine's start() method. What is wrong with this design and how would you fix it?",
+    "answer": "A Car is not an Engine, so the is-a relationship is wrong; a Car has an Engine. The fix is composition: Car holds an Engine field and calls engine.start() inside its own method. Composition is more flexible (the engine can be swapped) and avoids tying Car to the Engine's implementation.",
+    "solution": "class Engine {\n  void start() { System.out.println(\"Engine started\"); }\n}\nclass Car {\n  private Engine engine = new Engine();\n  void start() { engine.start(); }\n}",
+    "keyPoints": [
+      "Is-a vs has-a",
+      "Car has an Engine, so use composition",
+      "Inheritance only for true specialisation",
+      "Composition is more flexible"
+    ]
+  },
+  {
+    "id": 105,
+    "category": "OOPS",
+    "topic": "Method overloading",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What is the output of this program? Explain how Java chooses the method for each call.",
+    "code": "public class Test {\n  static void show(int x)    { System.out.println(\"int\"); }\n  static void show(double x) { System.out.println(\"double\"); }\n\n  public static void main(String[] args) {\n    show(5);\n    show(5.5);\n    show('A');\n  }\n}",
+    "answer": "Output: int, double, int. show(5) matches int exactly; show(5.5) matches double; 'A' is a char, which has no exact match, so it is widened to the closest type, int. Overloads are resolved at compile time from the argument types.",
+    "keyPoints": [
+      "Exact match is preferred",
+      "char is widened to int",
+      "Overload resolution happens at compile time"
+    ]
+  },
+  {
+    "id": 106,
+    "category": "OOPS",
+    "topic": "Abstraction",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write an abstract class Shape with an abstract method area(). Create subclasses Circle and Rectangle, then print the area of one object of each in main using Shape references.",
+    "answer": "Check for the abstract keyword on the class and method, subclasses that extend Shape and implement area(), constructors for the dimensions, and Shape-typed references in main.",
+    "solution": "abstract class Shape {\n  abstract double area();\n}\n\nclass Circle extends Shape {\n  private double r;\n  Circle(double r) { this.r = r; }\n  double area() { return Math.PI * r * r; }\n}\n\nclass Rectangle extends Shape {\n  private double w, h;\n  Rectangle(double w, double h) { this.w = w; this.h = h; }\n  double area() { return w * h; }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Shape[] shapes = { new Circle(2), new Rectangle(3, 4) };\n    for (Shape s : shapes) {\n      System.out.println(s.area());\n    }\n  }\n}",
+    "keyPoints": [
+      "abstract class and abstract method",
+      "Subclasses implement area()",
+      "Parent reference calls the child's method",
+      "Constructors set the dimensions"
+    ]
+  },
+  {
+    "id": 107,
+    "category": "OOPS",
+    "topic": "Inheritance",
+    "difficulty": "Medium",
+    "type": "Debug",
+    "question": "This code does not compile. Find the problem and fix it.",
+    "code": "class Parent {\n  Parent(int x) {\n    System.out.println(\"Parent \" + x);\n  }\n}\nclass Child extends Parent {\n  Child() {\n    System.out.println(\"Child\");\n  }\n}",
+    "answer": "Parent has only a parameterised constructor, so there is no default constructor. Child's constructor implicitly calls super(), which does not exist, so compilation fails. Fix by calling super(5) as the first statement of Child's constructor (or add a no-argument constructor to Parent).",
+    "solution": "class Child extends Parent {\n  Child() {\n    super(5);\n    System.out.println(\"Child\");\n  }\n}",
+    "keyPoints": [
+      "Implicit super() is inserted",
+      "Parent has no no-arg constructor",
+      "Fix: super(value) as the first statement"
+    ]
+  },
+  {
+    "id": 108,
+    "category": "Java",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What is the difference between String, StringBuilder and StringBuffer? Why is String immutable?",
+    "answer": "String objects cannot be changed once created, so every modification creates a new object. StringBuilder is mutable and fast but not thread-safe; StringBuffer is mutable and thread-safe (synchronised) but slower. Strings are immutable for security, thread safety, safe use as HashMap keys and so the string pool can share objects. Use StringBuilder when building text in loops.",
+    "keyPoints": [
+      "String is immutable",
+      "StringBuilder: mutable, not synchronised",
+      "StringBuffer: mutable, synchronised",
+      "Immutability enables the string pool and safe hashing"
+    ]
+  },
+  {
+    "id": 109,
+    "category": "Java",
+    "topic": "Exception handling",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "What is the difference between checked and unchecked exceptions, and between throw and throws? When does a finally block run?",
+    "answer": "Checked exceptions (e.g. IOException) are verified by the compiler and must be caught or declared; unchecked exceptions (RuntimeException and its subclasses such as NullPointerException) are not. throw is a statement that actually throws an exception object; throws is a clause in a method signature that declares what it may throw. finally runs whether or not an exception occurs, normally used for cleanup such as closing resources.",
+    "keyPoints": [
+      "Checked: compiler enforces handling",
+      "Unchecked: RuntimeException family",
+      "throw = action, throws = declaration",
+      "finally always runs (cleanup)"
+    ]
+  },
+  {
+    "id": 110,
+    "category": "Java",
+    "topic": "Collections",
+    "difficulty": "Easy",
+    "type": "Scenario",
+    "question": "Which Java collection would you choose for each case? (a) store unique roll numbers; (b) map a student id to a name; (c) process print jobs in first-come first-served order; (d) unique names that must stay in insertion order.",
+    "answer": "(a) HashSet (or TreeSet if sorted order is needed). (b) HashMap<Integer, String>. (c) Queue, for example LinkedList or ArrayDeque. (d) LinkedHashSet.",
+    "keyPoints": [
+      "Set for uniqueness",
+      "Map for key-value lookup",
+      "Queue for FIFO",
+      "LinkedHashSet keeps insertion order"
+    ]
+  },
+  {
+    "id": 111,
+    "category": "Java",
+    "topic": "Collections",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What does this code print? Pay attention to the two different remove() calls.",
+    "code": "List<Integer> list = new ArrayList<>(List.of(10, 20, 30));\nlist.remove(1);\nlist.remove(Integer.valueOf(10));\nSystem.out.println(list);",
+    "answer": "Output: [30]. remove(1) is remove(int index), so it removes the element at index 1 (the value 20), leaving [10, 30]. remove(Integer.valueOf(10)) is remove(Object), so it removes the value 10, leaving [30].",
+    "keyPoints": [
+      "remove(int) removes by index",
+      "remove(Object) removes by value",
+      "Result is [30]"
+    ]
+  },
+  {
+    "id": 112,
+    "category": "Java",
+    "topic": "Basic programs",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write Java methods to compute the factorial of n (a) using a loop and (b) using recursion.",
+    "answer": "Loop version multiplies from 2 to n. Recursive version needs a base case (n <= 1 returns 1). Check for the right return type (long) and the base case.",
+    "solution": "static long factorialLoop(int n) {\n  long result = 1;\n  for (int i = 2; i <= n; i++) {\n    result *= i;\n  }\n  return result;\n}\n\nstatic long factorialRecursive(int n) {\n  if (n <= 1) return 1;\n  return n * factorialRecursive(n - 1);\n}",
+    "keyPoints": [
+      "Correct loop bounds",
+      "Base case in recursion",
+      "Handles n = 0 and 1",
+      "Uses long to avoid overflow for larger n"
+    ]
+  },
+  {
+    "id": 113,
+    "category": "Java",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a Java method isPalindrome(String s) that returns true if the string reads the same forwards and backwards, ignoring case. Test it in main with \"Madam\" and \"Java\".",
+    "answer": "Two-pointer approach: compare the first and last characters and move inward. Check that the student handles case and stops at the middle.",
+    "solution": "public class Palindrome {\n  static boolean isPalindrome(String s) {\n    String t = s.toLowerCase();\n    int i = 0, j = t.length() - 1;\n    while (i < j) {\n      if (t.charAt(i) != t.charAt(j)) return false;\n      i++;\n      j--;\n    }\n    return true;\n  }\n\n  public static void main(String[] args) {\n    System.out.println(isPalindrome(\"Madam\")); // true\n    System.out.println(isPalindrome(\"Java\"));  // false\n  }\n}",
+    "keyPoints": [
+      "Handles case with toLowerCase()",
+      "Two indices moving inward (or a reversed copy)",
+      "Returns false on first mismatch",
+      "Uses charAt and length() correctly"
+    ]
+  },
+  {
+    "id": 114,
+    "category": "Java",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a method that returns the second largest element of an int array without sorting it.",
+    "answer": "Track the largest and second largest values in one pass. Watch for duplicates of the largest value.",
+    "solution": "static int secondLargest(int[] a) {\n  int first = Integer.MIN_VALUE, second = Integer.MIN_VALUE;\n  for (int n : a) {\n    if (n > first) {\n      second = first;\n      first = n;\n    } else if (n > second && n != first) {\n      second = n;\n    }\n  }\n  return second;\n}",
+    "keyPoints": [
+      "Single pass, two variables",
+      "Shifts first into second on a new maximum",
+      "Handles duplicates with n != first",
+      "Sensible initial values"
+    ]
+  },
+  {
+    "id": 115,
+    "category": "JavaScript",
+    "topic": "Equality",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What is the difference between == and ===? Give two examples where they give different results.",
+    "answer": "== compares after converting types (type coercion); === compares value and type with no conversion. For example 5 == '5' is true but 5 === '5' is false, and 0 == false is true but 0 === false is false. Prefer === for predictable results.",
+    "keyPoints": [
+      "== coerces types",
+      "=== checks value and type",
+      "Examples like 5 and '5'",
+      "Prefer ==="
+    ]
+  },
+  {
+    "id": 116,
+    "category": "JavaScript",
+    "topic": "Async JavaScript",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "How do callbacks, Promises and async/await relate? Why were Promises introduced?",
+    "answer": "A callback is a function passed to run after an asynchronous task finishes; nesting many of them leads to callback hell. A Promise represents a future value with states pending, fulfilled or rejected and is chained with then/catch. async/await is syntax on top of promises that lets asynchronous code read like normal code, with try/catch for errors. Promises give flatter code and better error handling than nested callbacks.",
+    "keyPoints": [
+      "Callback hell from nesting",
+      "Promise states: pending, fulfilled, rejected",
+      "async/await is built on promises",
+      "try/catch for errors"
+    ]
+  },
+  {
+    "id": 117,
+    "category": "JavaScript",
+    "topic": "Type coercion",
+    "difficulty": "Easy",
+    "type": "Output",
+    "question": "What does each line print? Explain the coercion that happens.",
+    "code": "console.log('5' + 3);\nconsole.log('5' - 3);\nconsole.log(true + 1);\nconsole.log(typeof NaN);",
+    "answer": "Output: 53, 2, 2, number. The + operator concatenates when one side is a string, so '5' + 3 is '53'. The - operator converts to numbers, so '5' - 3 is 2. true becomes 1, so true + 1 is 2. NaN is of type number.",
+    "keyPoints": [
+      "+ concatenates with strings",
+      "- forces numeric conversion",
+      "true converts to 1",
+      "typeof NaN is 'number'"
+    ]
+  },
+  {
+    "id": 118,
+    "category": "JavaScript",
+    "topic": "Closures",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What does this code print and why? How would you change it to print 0, 1, 2?",
+    "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+    "answer": "It prints 3, 3, 3. var is function-scoped, so all callbacks share one variable i, and the callbacks run after the loop has finished when i is 3. Declaring the counter with let gives each iteration its own i, so it prints 0, 1, 2. An IIFE that captures i also works.",
+    "solution": "for (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+    "keyPoints": [
+      "var shares one variable",
+      "Callbacks run after the loop",
+      "let creates a new binding per iteration"
+    ]
+  },
+  {
+    "id": 119,
+    "category": "JavaScript",
+    "topic": "Basic programs",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Write a loop that prints the numbers 1 to 30, but prints Fizz for multiples of 3, Buzz for multiples of 5 and FizzBuzz for multiples of both.",
+    "answer": "The classic trap is checking 3 or 5 before 15. Check multiples of 15 (or both conditions) first.",
+    "solution": "for (let i = 1; i <= 30; i++) {\n  if (i % 15 === 0) console.log('FizzBuzz');\n  else if (i % 3 === 0) console.log('Fizz');\n  else if (i % 5 === 0) console.log('Buzz');\n  else console.log(i);\n}",
+    "keyPoints": [
+      "Correct loop bounds 1 to 30",
+      "FizzBuzz check comes first",
+      "Uses the modulus operator",
+      "Prints the number otherwise"
+    ]
+  },
+  {
+    "id": 120,
+    "category": "JavaScript",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Given const prices = [120, 45, 300, 80]; use array methods to (a) add 18% tax to each price, (b) get only the prices above 100, (c) get the total of all prices.",
+    "answer": "Expect map for (a), filter for (b) and reduce for (c). The original array should not be changed.",
+    "solution": "const prices = [120, 45, 300, 80];\n\nconst withTax = prices.map(p => p * 1.18);\nconst expensive = prices.filter(p => p > 100);\nconst total = prices.reduce((sum, p) => sum + p, 0);\n\nconsole.log(expensive); // [120, 300]\nconsole.log(total);     // 545",
+    "keyPoints": [
+      "map transforms every item",
+      "filter keeps items that pass the test",
+      "reduce with an initial value 0",
+      "Original array is not mutated"
+    ]
+  },
+  {
+    "id": 121,
+    "category": "JavaScript",
+    "topic": "Async JavaScript",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write an async function getUser(id) that fetches https://api.example.com/users/<id>, returns the parsed JSON, and handles both network errors and non-OK responses.",
+    "answer": "Use await fetch inside try/catch. Note that fetch does not reject on HTTP errors such as 404, so check res.ok yourself.",
+    "solution": "async function getUser(id) {\n  try {\n    const res = await fetch(`https://api.example.com/users/${id}`);\n    if (!res.ok) throw new Error('Request failed: ' + res.status);\n    return await res.json();\n  } catch (err) {\n    console.error(err.message);\n    return null;\n  }\n}",
+    "keyPoints": [
+      "async function with await",
+      "Checks res.ok",
+      "try/catch for errors",
+      "Parses with res.json()"
+    ]
+  },
+  {
+    "id": 122,
+    "category": "DBMS",
+    "topic": "DBMS basics",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What is a DBMS? How is it better than storing data in plain files?",
+    "answer": "A DBMS is software that stores, organises and manages data and lets users query and update it. Compared with file systems it reduces data redundancy and inconsistency, supports concurrent access, enforces integrity constraints, provides security and backup/recovery, and offers a query language such as SQL.",
+    "keyPoints": [
+      "Less redundancy and inconsistency",
+      "Integrity constraints",
+      "Concurrent access and security",
+      "Query language (SQL), backup and recovery"
+    ]
+  },
+  {
+    "id": 123,
+    "category": "DBMS",
+    "topic": "ER modelling",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "Explain one-to-one, one-to-many and many-to-many relationships with a real-world example of each.",
+    "answer": "One-to-one: a person and their passport. One-to-many: one department has many employees, each employee belongs to one department (foreign key on the many side). Many-to-many: students and courses, implemented with a junction table.",
+    "keyPoints": [
+      "1:1 example",
+      "1:N with foreign key on the many side",
+      "M:N needs a junction table"
+    ]
+  },
+  {
+    "id": 124,
+    "category": "DBMS",
+    "topic": "SQL queries",
+    "difficulty": "Medium",
+    "type": "Concept",
+    "question": "What is the difference between WHERE and HAVING? Write a query that shows departments having more than 2 employees earning above 30000.",
+    "answer": "WHERE filters individual rows before grouping and cannot use aggregate functions. HAVING filters groups after GROUP BY and can use aggregates such as COUNT. In the sample query WHERE removes low-salary rows first, then HAVING keeps only groups with more than 2 rows.",
+    "solution": "SELECT dept, COUNT(*) AS total\nFROM Employee\nWHERE salary > 30000\nGROUP BY dept\nHAVING COUNT(*) > 2;",
+    "keyPoints": [
+      "WHERE: rows before grouping",
+      "HAVING: groups after GROUP BY",
+      "Aggregates allowed only in HAVING",
+      "Correct order of clauses"
+    ]
+  },
+  {
+    "id": 125,
+    "category": "DBMS",
+    "topic": "ER modelling",
+    "difficulty": "Medium",
+    "type": "Scenario",
+    "question": "Design the tables for a college where students enrol in many courses and each course has many students. How do you represent this in a relational database?",
+    "answer": "Student and Course are separate entities with a many-to-many relationship. A many-to-many relationship cannot be stored directly, so create a junction table Enrollment(student_id, course_id) whose primary key is the pair and whose columns are foreign keys to Student and Course. Extra data such as grade or enrolment date can go in Enrollment.",
+    "solution": "Student(student_id PK, name)\nCourse(course_id PK, title)\nEnrollment(student_id FK, course_id FK, grade,\n           PRIMARY KEY (student_id, course_id))",
+    "keyPoints": [
+      "Many-to-many needs a junction table",
+      "Composite primary key",
+      "Foreign keys to both tables",
+      "Relationship attributes live in the junction table"
+    ]
+  },
+  {
+    "id": 126,
+    "category": "DBMS",
+    "topic": "SQL queries",
+    "difficulty": "Medium",
+    "type": "Output",
+    "question": "What rows does this query return? Show the result.",
+    "code": "Orders\nid | customer | amount\n1  | Ravi     | 500\n2  | Asha     | 300\n3  | Ravi     | 200\n4  | Meena    | 600\n5  | Asha     | 100\n\nSELECT customer, SUM(amount) AS total\nFROM Orders\nGROUP BY customer\nHAVING SUM(amount) > 400\nORDER BY total DESC;",
+    "answer": "Ravi 700 and Meena 600, in that order. Totals are Ravi 700, Asha 400, Meena 600. HAVING keeps totals above 400, so Asha (exactly 400) is excluded. ORDER BY total DESC puts Ravi first.",
+    "keyPoints": [
+      "GROUP BY sums per customer",
+      "HAVING filters groups; 400 is not > 400",
+      "ORDER BY total DESC"
+    ]
+  },
+  {
+    "id": 127,
+    "category": "DBMS",
+    "topic": "SQL queries",
+    "difficulty": "Easy",
+    "type": "Code",
+    "question": "Table Employee(emp_id, name, dept, salary). Write queries to (a) list employees earning more than 50000, highest first; (b) count employees in each department; (c) find the average salary.",
+    "answer": "Each part uses one basic clause: WHERE with ORDER BY, GROUP BY with COUNT, and AVG.",
+    "solution": "-- (a)\nSELECT * FROM Employee\nWHERE salary > 50000\nORDER BY salary DESC;\n\n-- (b)\nSELECT dept, COUNT(*) AS total\nFROM Employee\nGROUP BY dept;\n\n-- (c)\nSELECT AVG(salary) AS avg_salary FROM Employee;",
+    "keyPoints": [
+      "WHERE and ORDER BY ... DESC",
+      "GROUP BY with COUNT(*)",
+      "AVG() aggregate"
+    ]
+  },
+  {
+    "id": 128,
+    "category": "DBMS",
+    "topic": "SQL queries",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write a query to list the employees whose salary is higher than the average salary of all employees.",
+    "answer": "Use a subquery that computes the average and compare each salary with it. An aggregate cannot be used directly in WHERE without a subquery.",
+    "solution": "SELECT name, salary\nFROM Employee\nWHERE salary > (SELECT AVG(salary) FROM Employee);",
+    "keyPoints": [
+      "Subquery for the average",
+      "Compares salary in WHERE",
+      "Aggregate not placed directly in WHERE"
+    ]
+  },
+  {
+    "id": 129,
+    "category": "DBMS",
+    "topic": "Transactions",
+    "difficulty": "Medium",
+    "type": "Code",
+    "question": "Write SQL to transfer 500 from account 1 to account 2 in the table Account(acc_id, balance) as a single transaction, so that nothing is saved if a step fails.",
+    "answer": "Start a transaction, run both updates, then COMMIT. If something fails, ROLLBACK undoes everything.",
+    "solution": "START TRANSACTION;\n\nUPDATE Account SET balance = balance - 500 WHERE acc_id = 1;\nUPDATE Account SET balance = balance + 500 WHERE acc_id = 2;\n\nCOMMIT;\n-- on error: ROLLBACK;",
+    "keyPoints": [
+      "START TRANSACTION / BEGIN",
+      "Both updates in the same transaction",
+      "COMMIT on success, ROLLBACK on failure"
+    ]
+  },
+  {
+    "id": 130,
+    "category": "HTML & CSS",
+    "topic": "Semantic HTML",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What is semantic HTML? Name five semantic elements and say why they matter.",
+    "answer": "Semantic elements describe their meaning, for example header, nav, main, article, section, aside and footer, unlike div and span which say nothing. They help screen readers navigate, help search engines understand the page and make the code easier to read.",
+    "keyPoints": [
+      "Elements that describe meaning",
+      "header, nav, main, article, footer",
+      "Accessibility and SEO",
+      "Better readability than many divs"
+    ]
+  },
+  {
+    "id": 131,
+    "category": "HTML & CSS",
+    "topic": "Forms",
+    "difficulty": "Easy",
+    "type": "Concept",
+    "question": "What is the difference between the GET and POST methods in an HTML form? Which would you use for a login form and for a search box?",
+    "answer": "GET puts the form data in the URL query string, so it is visible, bookmarkable and suited to searches. POST sends the data in the request body, which is not shown in the URL and is used for actions that change data or send sensitive input. Use POST for login and GET for a search box.",
+    "keyPoints": [
+      "GET: data in the URL",
+      "POST: data in the body",
+      "POST for login, GET for search"
+    ]
+  }
+]
